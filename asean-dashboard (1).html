@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Transformation Dashboard – ASEAN</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #0e0f11;
+      --surface:   #161819;
+      --card:      #1c1e20;
+      --border:    rgba(255,255,255,0.07);
+      --border2:   rgba(255,255,255,0.13);
+      --text:      #e8e6e1;
+      --muted:     #7a7875;
+      --accent:    #f59e0b;
+      --blue:      #4f8ef7;
+      --green:     #2ec4a0;
+      --red:       #e05a5a;
+      --purple:    #a78bfa;
+      --radius:    10px;
+      --radius-lg: 16px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+    .shell { max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
+
+    /* ── HEADER ── */
+    header { padding: 40px 0 28px; border-bottom: 1px solid var(--border); margin-bottom: 28px; display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .header-left h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
+    .header-left p  { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .header-right   { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .badge { font-family: 'DM Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+    .badge-asean { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.25); }
+    .badge-data  { background: rgba(79,142,247,0.10); color: #7ab0fa; border: 1px solid rgba(79,142,247,0.20); }
+    .back-link { font-size: 12px; color: var(--muted); text-decoration: none; border: 1px solid var(--border2); padding: 4px 10px; border-radius: 20px; transition: all .15s; }
+    .back-link:hover { color: var(--text); border-color: var(--accent); }
+
+    /* ── COUNTRY FILTER ── */
+    .country-bar  { margin-bottom: 24px; }
+    .filter-label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; display: block; }
+    .country-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+    .country-btn  { background: transparent; border: 1px solid var(--border2); color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 5px 13px; border-radius: 20px; cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 5px; }
+    .country-btn .flag { font-size: 14px; }
+    .country-btn:hover { border-color: var(--accent); color: var(--text); }
+    .country-btn.active { background: var(--accent); border-color: var(--accent); color: #111; font-weight: 500; }
+    .country-btn.all-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+    /* ── VIEW MODE INDICATOR ── */
+    .view-mode-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 11px; color: var(--muted); }
+    .view-pill { display: inline-flex; align-items: center; gap: 5px; background: var(--surface); border: 1px solid var(--border2); padding: 3px 10px; border-radius: 20px; font-family: 'DM Mono', monospace; font-size: 10px; }
+    .view-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+    .view-pill.nation .dot { background: var(--accent); }
+
+    /* ── TABS ── */
+    .tabs { display: flex; gap: 2px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px; margin-bottom: 28px; overflow-x: auto; }
+    .tab-btn { flex: 1; min-width: 110px; background: transparent; border: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 8px 14px; border-radius: 7px; cursor: pointer; transition: all .15s; white-space: nowrap; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { background: var(--card); color: var(--text); font-weight: 500; border: 1px solid var(--border2); }
+
+    /* ── PANELS ── */
+    .panel { display: none; }
+    .panel.active { display: block; animation: fadeUp .22s ease; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(6px);} to { opacity:1; transform:translateY(0);} }
+
+    /* ── METRIC CARDS (All ASEAN) ── */
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .metric { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; transition: border-color .15s; }
+    .metric:hover { border-color: var(--border2); }
+    .metric .m-label { font-size: 11px; text-transform: uppercase; letter-spacing:.06em; color: var(--muted); margin-bottom: 8px; }
+    .metric .m-value { font-size: 26px; font-weight: 600; letter-spacing: -0.5px; line-height: 1; }
+    .metric .m-sub   { font-size: 11px; color: var(--muted); margin-top: 6px; }
+    .m-value.amber  { color: var(--accent); }
+    .m-value.blue   { color: var(--blue); }
+    .m-value.green  { color: var(--green); }
+    .m-value.red    { color: var(--red); }
+    .m-value.purple { color: var(--purple); }
+
+    /* ── CHART CARDS ── */
+    .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 22px; margin-bottom: 16px; }
+    .cc-head { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+    .cc-title  { font-size: 13px; font-weight: 500; color: var(--text); }
+    .cc-source { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 2px; }
+    .cc-inline-filter select { background: var(--surface); border: 1px solid var(--border2); color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 11px; padding: 4px 8px; border-radius: 6px; cursor: pointer; outline: none; }
+    .cc-inline-filter select:focus { border-color: var(--accent); }
+    .chart-wrap { position: relative; width: 100%; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+    .legend span { display: flex; align-items: center; gap: 5px; }
+    .legend b { width: 8px; height: 8px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+
+    /* ══════════════════════════════════════════
+       OPTION B — NATION PROFILE
+    ══════════════════════════════════════════ */
+
+    .nation-header {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--card); border: 1px solid var(--border2);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius-lg); padding: 18px 22px;
+      margin-bottom: 16px;
+    }
+    .nation-flag  { font-size: 38px; line-height: 1; }
+    .nation-info  { flex: 1; }
+    .nation-name  { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
+    .nation-tag   { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .nation-rank  { font-family: 'DM Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+    .nation-rank.top  { background: rgba(46,196,160,0.12); color: var(--green); border: 1px solid rgba(46,196,160,0.2); }
+    .nation-rank.mid  { background: rgba(245,158,11,0.12); color: var(--accent); border: 1px solid rgba(245,158,11,0.2); }
+    .nation-rank.low  { background: rgba(224,90,90,0.12);  color: var(--red);    border: 1px solid rgba(224,90,90,0.2); }
+
+    .nation-note {
+      background: rgba(245,158,11,0.04); border: 1px solid rgba(245,158,11,0.12);
+      border-radius: var(--radius); padding: 10px 16px;
+      font-size: 12px; color: var(--muted); margin-bottom: 20px; font-style: italic;
+    }
+    .nation-note strong { color: var(--accent); font-style: normal; font-weight: 500; }
+
+    /* 2×3 grid */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    /* YAH card */
+    .yah-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 16px 18px;
+      transition: border-color .15s;
+    }
+    .yah-card:hover { border-color: var(--border2); }
+    .yah-label { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 10px; }
+    .yah-value { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; line-height: 1; margin-bottom: 14px; }
+    .yah-value.c-amber  { color: var(--accent); }
+    .yah-value.c-blue   { color: var(--blue); }
+    .yah-value.c-green  { color: var(--green); }
+    .yah-value.c-red    { color: var(--red); }
+    .yah-value.c-purple { color: var(--purple); }
+
+    /* Range track */
+    .range-track {
+      position: relative; height: 5px;
+      background: rgba(255,255,255,0.07); border-radius: 3px;
+      margin-bottom: 7px;
+    }
+    .range-fill {
+      position: absolute; left: 0; top: 0; height: 100%;
+      border-radius: 3px; transition: width .5s cubic-bezier(.4,0,.2,1);
+    }
+    .range-dot {
+      position: absolute; top: 50%; width: 11px; height: 11px;
+      border-radius: 50%; transform: translate(-50%, -50%);
+      border: 2px solid var(--bg);
+      transition: left .5s cubic-bezier(.4,0,.2,1);
+    }
+    .range-labels {
+      display: flex; justify-content: space-between;
+      font-size: 9px; color: var(--muted);
+      font-family: 'DM Mono', monospace; margin-bottom: 10px;
+    }
+
+    /* rank badge */
+    .yah-rank { display: flex; align-items: center; gap: 6px; }
+    .rank-badge {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      padding: 2px 8px; border-radius: 10px;
+    }
+    .rank-badge.top { background: rgba(46,196,160,0.12); color: var(--green); }
+    .rank-badge.mid { background: rgba(245,158,11,0.12); color: var(--accent); }
+    .rank-badge.low { background: rgba(224,90,90,0.10);  color: var(--red); }
+    .yah-rank-label { font-size: 11px; color: var(--muted); }
+
+    .profile-source { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 4px; }
+
+    /* ── FOOTER ── */
+    footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+    @media (max-width: 720px) {
+      .profile-grid { grid-template-columns: 1fr 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      header { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 420px) {
+      .profile-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <header>
+    <div class="header-left">
+      <h1>Digital Transformation Dashboard — ASEAN</h1>
+      <p>AI adoption · Digitalization · Digital divide · Sector breakdown · 10 member states</p>
+    </div>
+    <div class="header-right">
+      <span class="badge badge-asean">ASEAN Focus</span>
+      <span class="badge badge-data">2024–2025 data</span>
+      <a class="back-link" href="index.html">← Global view</a>
+    </div>
+  </header>
+
+  <div class="country-bar">
+    <span class="filter-label">Country</span>
+    <div class="country-grid" id="country-grid"></div>
+  </div>
+
+  <div class="view-mode-bar" id="view-mode-bar"></div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('market')">Market & Economy</button>
+    <button class="tab-btn" onclick="showTab('ai')">AI Adoption</button>
+    <button class="tab-btn" onclick="showTab('divide')">Digital Divide</button>
+    <button class="tab-btn" onclick="showTab('sector')">Sector & Readiness</button>
+  </div>
+
+  <div id="panel-market" class="panel active"><div id="market-content"></div></div>
+  <div id="panel-ai"     class="panel">        <div id="ai-content"></div></div>
+  <div id="panel-divide" class="panel">        <div id="divide-content"></div></div>
+  <div id="panel-sector" class="panel">        <div id="sector-content"></div></div>
+
+  <footer>
+    <span>Sources: Google/Temasek/Bain e-Conomy SEA 2025 · Microsoft AI Report 2025 · DataReportal 2024 · ITU · World Bank · SEA Public Policy Institute · Oxford Insights 2024</span>
+    <span>Built with Chart.js · GitHub Pages</span>
+  </footer>
+</div>
+
+<script>
+/* ════════════════════════════════════════
+   DATA
+════════════════════════════════════════ */
+const COUNTRIES = [
+  { id:'all', name:'All ASEAN',   flag:'🌏' },
+  { id:'sg',  name:'Singapore',   flag:'🇸🇬' },
+  { id:'my',  name:'Malaysia',    flag:'🇲🇾' },
+  { id:'th',  name:'Thailand',    flag:'🇹🇭' },
+  { id:'id',  name:'Indonesia',   flag:'🇮🇩' },
+  { id:'ph',  name:'Philippines', flag:'🇵🇭' },
+  { id:'vn',  name:'Vietnam',     flag:'🇻🇳' },
+  { id:'bn',  name:'Brunei',      flag:'🇧🇳' },
+  { id:'kh',  name:'Cambodia',    flag:'🇰🇭' },
+  { id:'la',  name:'Laos',        flag:'🇱🇦' },
+  { id:'mm',  name:'Myanmar',     flag:'🇲🇲' },
+];
+const LABELS = ['Singapore','Malaysia','Thailand','Indonesia','Philippines','Vietnam','Brunei','Cambodia','Laos','Myanmar'];
+
+const DATA = {
+  market: {
+    aseanMetrics: [
+      ['ASEAN digital economy GMV 2025e','$300B+','Google · Temasek · Bain'],
+      ['Target GMV by 2030','$1T','e-Conomy SEA 2025'],
+      ['ASEAN DX market 2025','$102B','23.7% CAGR to 2030'],
+      ['New internet users/day','125K','WEF · across ASEAN'],
+    ],
+    gmv:      { labels:LABELS, values:[29,14,26,90,27,36,0.8,1.2,0.5,1.5] },
+    dxMarket: { labels:LABELS, values:[9.5,7.2,5.8,28,5.1,6.4,0.6,0.9,0.4,1.1] },
+    gdpPct:   { labels:LABELS, values:[17,8,11,8,8,8,3,5,3,4] },
+    note: {
+      sg:'Leading AI hub in SEA — $1.31B private AI funding, highest in the region.',
+      my:'Fastest-growing DX market; Microsoft ($2.2B) & Google ($2B) committed investment.',
+      th:'Digital economy on track from 6% to 11% of GDP by 2027.',
+      id:'Largest digital economy in SEA at $90B GMV; $1.7B Microsoft investment pledged.',
+      ph:'Top 5 globally for AI search interest; strong e-commerce growth trajectory.',
+      vn:'Fastest GMV growth in SEA (+16% YoY); #3 globally for consumer AI trust.',
+      bn:'Highest internet penetration in ASEAN at 99%; government-led Smart Nation agenda.',
+      kh:'Rapid mobile-first growth; penetration up 28pp in five years from a low base.',
+      la:'Digital infrastructure buildout phase; government broadband expansion underway.',
+      mm:'Recovering connectivity after 2021 political disruption; still rebuilding momentum.',
+    },
+  },
+  ai: {
+    aseanMetrics: [
+      ['SEA AI market 2024','$4.3B','16.6% CAGR to 2033 · IMARC'],
+      ['SEA AI market 2030e','$17.2B','IMARC Group'],
+      ['ASEAN businesses using AI','85%','Ecosystm · 2024'],
+      ['GDP boost from AI by 2030','13–18%','McKinsey SEA'],
+    ],
+    businessAdopt: { labels:LABELS, values:[48,27,32,28,21,42,12,8,5,7] },
+    consumerUsage: { labels:LABELS, values:[60.9,32,39,42,35,42,18,5.1,6,8] },
+    investment:    { labels:LABELS, values:[8.4,1.2,0.6,1.9,0.3,0.095,0.05,0.02,0.01,0.03] },
+    skillsGap:     { labels:LABELS, values:[43,52,47,57,57,55,35,62,68,70] },
+  },
+  divide: {
+    aseanMetrics: [
+      ['ASEAN internet users (2024)','400M+','DataReportal'],
+      ['ASEAN avg penetration','73%','From 34% in 2013'],
+      ['Still offline in ASEAN','~280M','Mostly rural populations'],
+      ['Mobile-first users','~90%','Access via smartphone only'],
+    ],
+    internet:   { labels:LABELS, values:[96,97,85,79,73,79,99,72,62,59] },
+    mobile:     { labels:LABELS, values:[163,141,188,128,131,160,133,98,80,76] },
+    social:     { labels:LABELS, values:[83,79,66,68,82,81,73,66,48,31] },
+    urbanGap:   { labels:LABELS, values:[0,8,18,23,20,15,2,28,32,35] },
+    growth2019: { labels:LABELS, values2019:[85,82,67,56,62,66,95,44,37,30], values2024:[96,97,85,79,73,79,99,72,62,59] },
+  },
+  sector: {
+    aseanMetrics: [
+      ['ASEAN e-commerce GMV 2025','$186B','e-Conomy SEA 2025'],
+      ['Digital financial services rev.','$35B','e-Conomy SEA 2025'],
+      ['Data center capacity growth','180%','By 2030 vs 2024'],
+      ['Cloud-first businesses','88%','ASEAN avg. · 2024'],
+    ],
+    readiness: {
+      labels:LABELS,
+      digital:     [81,55,47,43,38,42,52,28,22,18],
+      aiReadiness: [80,58,52,47,44,49,48,30,24,20],
+      eGov:        [83,69,72,65,64,70,62,47,40,32],
+    },
+    ecom: { labels:LABELS, values:[9,11,24,65,17,26,0.3,0.8,0.2,0.6] },
+    dfs:  { labels:LABELS, values:[90,76,72,65,51,68,80,35,28,22] },
+  },
+};
+
+/* ─── Per-tab profile config for Option B ─── */
+const PROFILE_METRICS = {
+  market: [
+    { label:'Digital GMV 2025e',     vals:()=>DATA.market.gmv.values,      prefix:'$', unit:'B',     color:'amber',  dec:1 },
+    { label:'DX market size 2025e',  vals:()=>DATA.market.dxMarket.values,  prefix:'$', unit:'B',     color:'blue',   dec:1 },
+    { label:'Digital economy % GDP', vals:()=>DATA.market.gdpPct.values,    prefix:'',  unit:'%',     color:'green',  dec:0 },
+    { label:'Consumer AI usage',     vals:()=>DATA.ai.consumerUsage.values, prefix:'',  unit:'%',     color:'purple', dec:1 },
+    { label:'Internet penetration',  vals:()=>DATA.divide.internet.values,  prefix:'',  unit:'%',     color:'blue',   dec:0 },
+    { label:'DFS adoption',          vals:()=>DATA.sector.dfs.values,       prefix:'',  unit:'%',     color:'green',  dec:0 },
+  ],
+  ai: [
+    { label:'Business AI adoption',  vals:()=>DATA.ai.businessAdopt.values,              prefix:'', unit:'%',    color:'amber',  dec:0 },
+    { label:'Consumer AI usage',     vals:()=>DATA.ai.consumerUsage.values,              prefix:'', unit:'%',    color:'blue',   dec:1 },
+    { label:'AI investment 2024',    vals:()=>DATA.ai.investment.values,                 prefix:'$',unit:'B',    color:'green',  dec:2 },
+    { label:'AI skills gap',         vals:()=>DATA.ai.skillsGap.values,                  prefix:'', unit:'%',    color:'red',    dec:0 },
+    { label:'Digital competitiveness',vals:()=>DATA.sector.readiness.digital,            prefix:'', unit:'/100', color:'purple', dec:0 },
+    { label:'AI gov. readiness',     vals:()=>DATA.sector.readiness.aiReadiness,         prefix:'', unit:'/100', color:'amber',  dec:0 },
+  ],
+  divide: [
+    { label:'Internet penetration',  vals:()=>DATA.divide.internet.values,  prefix:'', unit:'%',  color:'blue',   dec:0 },
+    { label:'Mobile penetration',    vals:()=>DATA.divide.mobile.values,    prefix:'', unit:'',   color:'green',  dec:0 },
+    { label:'Social media usage',    vals:()=>DATA.divide.social.values,    prefix:'', unit:'%',  color:'amber',  dec:0 },
+    { label:'Urban-rural gap',       vals:()=>DATA.divide.urbanGap.values,  prefix:'', unit:'pp', color:'red',    dec:0, invert:true },
+    { label:'5-year growth',         vals:()=>DATA.divide.growth2019.values2024.map((v,i)=>v-DATA.divide.growth2019.values2019[i]), prefix:'+', unit:'pp', color:'green', dec:0 },
+    { label:'DFS adoption',          vals:()=>DATA.sector.dfs.values,       prefix:'', unit:'%',  color:'blue',   dec:0 },
+  ],
+  sector: [
+    { label:'Digital competitiveness',vals:()=>DATA.sector.readiness.digital,    prefix:'', unit:'/100', color:'blue',   dec:0 },
+    { label:'AI gov. readiness',      vals:()=>DATA.sector.readiness.aiReadiness,prefix:'', unit:'/100', color:'amber',  dec:0 },
+    { label:'E-gov index',            vals:()=>DATA.sector.readiness.eGov,       prefix:'', unit:'/100', color:'green',  dec:0 },
+    { label:'E-commerce GMV 2025e',   vals:()=>DATA.sector.ecom.values,          prefix:'$',unit:'B',    color:'amber',  dec:1 },
+    { label:'DFS adoption',           vals:()=>DATA.sector.dfs.values,           prefix:'', unit:'%',    color:'green',  dec:0 },
+    { label:'Business AI adoption',   vals:()=>DATA.ai.businessAdopt.values,     prefix:'', unit:'%',    color:'purple', dec:0 },
+  ],
+};
+
+/* ════════════════════════════════════════
+   STATE & CHART REGISTRY
+════════════════════════════════════════ */
+let selectedCountry = 'all';
+let currentTab = 'market';
+const CHARTS = {};
+
+function makeChart(id, cfg) {
+  if (CHARTS[id]) { CHARTS[id].destroy(); delete CHARTS[id]; }
+  const el = document.getElementById(id);
+  if (!el) return null;
+  CHARTS[id] = new Chart(el, cfg);
+  return CHARTS[id];
+}
+
+Chart.defaults.color = '#7a7875';
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.font.size = 11;
+const GRID     = { color:'rgba(255,255,255,0.05)', borderColor:'rgba(255,255,255,0.08)' };
+const TICKS    = { color:'#7a7875' };
+const TICKS_SM = { color:'#7a7875', font:{size:10} };
+
+function amberScale(n) {
+  return Array.from({length:n},(_,i)=>`rgba(245,158,11,${(0.95-(i/n)*0.45).toFixed(2)})`);
+}
+function sortPair(labels, values, dir) {
+  const p = labels.map((l,i)=>[l,values[i]]);
+  p.sort((a,b)=>dir==='asc'?a[1]-b[1]:b[1]-a[1]);
+  return { labels:p.map(x=>x[0]), values:p.map(x=>x[1]) };
+}
+function fmtShort(n) {
+  const a = Math.abs(n);
+  if (a >= 10)  return Math.round(n).toString();
+  if (a >= 1)   return n.toFixed(1).replace(/\.0$/,'');
+  return n.toFixed(2).replace(/\.?0+$/,'');
+}
+function metricColor(v) {
+  const s = String(v);
+  if (s.startsWith('$')) return 'amber';
+  if (/[BMT]/.test(s) && !s.includes('%')) return 'green';
+  const n = parseFloat(s);
+  if (!isNaN(n)) return n>60?'green':n>30?'amber':'red';
+  return 'blue';
+}
+
+/* ════════════════════════════════════════
+   COUNTRY BUTTONS
+════════════════════════════════════════ */
+function buildButtons() {
+  document.getElementById('country-grid').innerHTML = COUNTRIES.map(c=>`
+    <button class="country-btn ${c.id==='all'?'all-btn':''} ${c.id===selectedCountry?'active':''}"
+      onclick="selectCountry('${c.id}')">
+      <span class="flag">${c.flag}</span>${c.name}
+    </button>`).join('');
+}
+
+function updateViewModeBar() {
+  const bar = document.getElementById('view-mode-bar');
+  if (selectedCountry === 'all') {
+    bar.innerHTML = `<span class="view-pill"><span class="dot"></span>Comparison view — all 10 ASEAN members</span>`;
+  } else {
+    const c = COUNTRIES.find(x=>x.id===selectedCountry);
+    bar.innerHTML = `<span class="view-pill nation"><span class="dot"></span>${c.flag} ${c.name} — Nation profile · "you are here" mode</span>
+      <span style="font-size:11px;color:var(--muted)">Select <strong style="color:var(--text)">All ASEAN</strong> to return to comparison view</span>`;
+  }
+}
+
+function selectCountry(id) {
+  selectedCountry = id;
+  buildButtons();
+  updateViewModeBar();
+  renderTab(currentTab);
+}
+
+/* ════════════════════════════════════════
+   TAB
+════════════════════════════════════════ */
+function showTab(id) {
+  currentTab = id;
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active', ['market','ai','divide','sector'][i]===id);
+  });
+  document.querySelectorAll('.panel').forEach(p=>{
+    p.classList.toggle('active', p.id==='panel-'+id);
+  });
+  renderTab(id);
+}
+
+/* ════════════════════════════════════════
+   RENDER DISPATCH
+════════════════════════════════════════ */
+function renderTab(tab) {
+  const el = document.getElementById(`${tab}-content`);
+  if (selectedCountry === 'all') renderAllASEAN(tab, el);
+  else renderNationProfile(tab, el);
+}
+
+/* ════════════════════════════════════════
+   ALL ASEAN VIEW  — ranked bar charts
+════════════════════════════════════════ */
+const ALL_TEMPLATES = {
+  market: `
+    <div class="metrics" id="market-metrics-el"></div>
+    <div class="chart-card">
+      <div class="cc-head">
+        <div><div class="cc-title">Digital economy GMV by country, 2025e ($B)</div><div class="cc-source">Source: Google · Temasek · Bain e-Conomy SEA 2025</div></div>
+        <div class="cc-inline-filter"><select id="market-sort" onchange="buildGMVChart(this.value)"><option value="desc">Highest first</option><option value="asc">Lowest first</option></select></div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="gmvChart"></canvas></div>
+    </div>
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title">DX market size 2025e ($B)</div><div class="cc-source">Source: Mordor Intelligence · IDC SEA</div></div></div>
+        <div class="chart-wrap" style="height:220px"><canvas id="dxMarketChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title">Digital economy as % of GDP</div><div class="cc-source">Source: ERIA · World Bank 2024</div></div></div>
+        <div class="chart-wrap" style="height:220px"><canvas id="gdpChart"></canvas></div>
+      </div>
+    </div>`,
+  ai: `
+    <div class="metrics" id="ai-metrics-el"></div>
+    <div class="chart-card">
+      <div class="cc-head">
+        <div><div class="cc-title">AI adoption by country (%)</div><div class="cc-source">Source: Microsoft · AWS · Fintech News SG · 2025</div></div>
+        <div class="cc-inline-filter"><select id="ai-view" onchange="buildAIAdoptChart(this.value)"><option value="business">Business adoption</option><option value="consumer">Consumer usage</option></select></div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="aiAdoptChart"></canvas></div>
+    </div>
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title">AI investment by country 2024 ($B)</div><div class="cc-source">Source: SEA Public Policy Institute 2025</div></div></div>
+        <div class="chart-wrap" style="height:220px"><canvas id="aiInvestChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title">AI skills gap: % citing shortage</div><div class="cc-source">Source: Microsoft · Fintech News SG 2025</div></div></div>
+        <div class="chart-wrap" style="height:220px"><canvas id="aiSkillsChart"></canvas></div>
+      </div>
+    </div>`,
+  divide: `
+    <div class="metrics" id="divide-metrics-el"></div>
+    <div class="chart-card">
+      <div class="cc-head">
+        <div><div class="cc-title">Internet penetration by country — 2024</div><div class="cc-source">Source: DataReportal · ITU · World Bank 2024</div></div>
+        <div class="cc-inline-filter"><select id="divide-view" onchange="buildDivideChart(this.value)"><option value="internet">Internet penetration</option><option value="mobile">Mobile penetration</option><option value="social">Social media usage</option></select></div>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="divideChart"></canvas></div>
+    </div>
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title">Urban vs rural internet gap (pp)</div><div class="cc-source">Source: ITU · World Bank 2023</div></div></div>
+        <div class="chart-wrap" style="height:220px"><canvas id="urbanChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title">Internet penetration growth: 2019 → 2024</div><div class="cc-source">Source: DataReportal 2024</div></div></div>
+        <div class="chart-wrap" style="height:220px"><canvas id="growthChart"></canvas></div>
+      </div>
+    </div>`,
+  sector: `
+    <div class="metrics" id="sector-metrics-el"></div>
+    <div class="chart-card">
+      <div class="cc-head"><div><div class="cc-title">Digital readiness index by country (0–100)</div><div class="cc-source">Source: IMD World Digital Competitiveness · Oxford Insights AI Readiness 2024</div></div></div>
+      <div class="legend">
+        <span><b style="background:#4f8ef7"></b> Digital competitiveness</span>
+        <span><b style="background:#f59e0b"></b> AI gov. readiness</span>
+        <span><b style="background:#2ec4a0"></b> E-gov index</span>
+      </div>
+      <div class="chart-wrap" style="height:260px"><canvas id="readinessChart"></canvas></div>
+    </div>
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title">E-commerce GMV 2025e ($B)</div><div class="cc-source">Source: e-Conomy SEA 2025</div></div></div>
+        <div class="chart-wrap" style="height:210px"><canvas id="ecomChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="cc-head"><div><div class="cc-title">Digital financial services adoption (%)</div><div class="cc-source">Source: e-Conomy SEA 2025 · Bain 2024</div></div></div>
+        <div class="chart-wrap" style="height:210px"><canvas id="dfsChart"></canvas></div>
+      </div>
+    </div>`,
+};
+
+function renderAllASEAN(tab, el) {
+  el.innerHTML = ALL_TEMPLATES[tab];
+  const mEl = el.querySelector(`#${tab}-metrics-el`);
+  if (mEl) {
+    mEl.className = 'metrics';
+    mEl.innerHTML = DATA[tab].aseanMetrics.map(([lbl,val,sub])=>`
+      <div class="metric">
+        <div class="m-label">${lbl}</div>
+        <div class="m-value ${metricColor(val)}">${val}</div>
+        <div class="m-sub">${sub}</div>
+      </div>`).join('');
+  }
+  setTimeout(()=>buildAllCharts(tab), 0);
+}
+
+function buildAllCharts(tab) {
+  if (tab==='market')  { buildGMVChart('desc'); buildDXMarketChart(); buildGDPChart(); }
+  if (tab==='ai')      { buildAIAdoptChart('business'); buildAIInvestChart(); buildAISkillsChart(); }
+  if (tab==='divide')  { buildDivideChart('internet'); buildUrbanChart(); buildGrowthChart(); }
+  if (tab==='sector')  { buildReadinessChart(); buildEcomChart(); buildDFSChart(); }
+}
+
+/* Market */
+function buildGMVChart(dir='desc') {
+  const s = sortPair(DATA.market.gmv.labels, DATA.market.gmv.values, dir);
+  makeChart('gmvChart', { type:'bar', data:{labels:s.labels,datasets:[{data:s.values,backgroundColor:amberScale(s.values.length),borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` $${c.raw}B`}}},scales:{x:{grid:{display:false},ticks:TICKS_SM},y:{grid:GRID,ticks:{...TICKS,callback:v=>'$'+v+'B'}}}} });
+}
+function buildDXMarketChart() {
+  const s = sortPair(DATA.market.dxMarket.labels, DATA.market.dxMarket.values, 'desc');
+  makeChart('dxMarketChart', { type:'bar', data:{labels:s.labels,datasets:[{data:s.values,backgroundColor:'#a78bfa88',borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` $${c.raw}B`}}},scales:{x:{grid:GRID,ticks:{...TICKS,callback:v=>'$'+v+'B'}},y:{grid:{display:false},ticks:TICKS_SM}}} });
+}
+function buildGDPChart() {
+  const d = DATA.market.gdpPct;
+  makeChart('gdpChart', { type:'bar', data:{labels:d.labels,datasets:[{data:d.values,backgroundColor:'#2ec4a055',borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw}%`}}},scales:{x:{grid:{display:false},ticks:TICKS_SM},y:{grid:GRID,ticks:{...TICKS,callback:v=>v+'%'},max:22}}} });
+}
+
+/* AI */
+function buildAIAdoptChart(metric='business') {
+  const d = metric==='business'?DATA.ai.businessAdopt:DATA.ai.consumerUsage;
+  const s = sortPair(d.labels,d.values,'desc');
+  const col = metric==='business'?'#4f8ef7':'#f59e0b';
+  makeChart('aiAdoptChart', { type:'bar', data:{labels:s.labels,datasets:[{data:s.values,backgroundColor:s.values.map((_,i)=>`${col}${Math.round(255*(0.9-(i/s.values.length)*0.4)).toString(16).padStart(2,'0')}`),borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw}%`}}},scales:{x:{grid:{display:false},ticks:TICKS_SM},y:{grid:GRID,ticks:{...TICKS,callback:v=>v+'%'},max:70}}} });
+}
+function buildAIInvestChart() {
+  const s = sortPair(DATA.ai.investment.labels,DATA.ai.investment.values,'desc');
+  makeChart('aiInvestChart', { type:'bar', data:{labels:s.labels,datasets:[{data:s.values,backgroundColor:'#f59e0b88',borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` $${c.raw}B`}}},scales:{x:{grid:GRID,ticks:{...TICKS,callback:v=>'$'+v+'B'}},y:{grid:{display:false},ticks:TICKS_SM}}} });
+}
+function buildAISkillsChart() {
+  const s = sortPair(DATA.ai.skillsGap.labels,DATA.ai.skillsGap.values,'desc');
+  makeChart('aiSkillsChart', { type:'bar', data:{labels:s.labels,datasets:[{data:s.values,backgroundColor:s.values.map(v=>v>55?'#e05a5a99':'#e05a5a44'),borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw}%`}}},scales:{x:{grid:{display:false},ticks:TICKS_SM},y:{grid:GRID,ticks:{...TICKS,callback:v=>v+'%'},max:85}}} });
+}
+
+/* Divide */
+function buildDivideChart(metric='internet') {
+  const dmap={internet:DATA.divide.internet,mobile:DATA.divide.mobile,social:DATA.divide.social};
+  const d=dmap[metric]; const s=sortPair(d.labels,d.values,'desc');
+  const isM=metric==='mobile'; const max=isM?200:100;
+  makeChart('divideChart', { type:'bar', data:{labels:s.labels,datasets:[{data:s.values,backgroundColor:s.values.map(v=>`rgba(79,142,247,${(v/max*0.65+0.2).toFixed(2)})`),borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw}${isM?'':'%'}`}}},scales:{x:{grid:{display:false},ticks:TICKS_SM},y:{grid:GRID,ticks:{...TICKS,callback:v=>v+(isM?'':'%')},max}}} });
+}
+function buildUrbanChart() {
+  const s=sortPair(DATA.divide.urbanGap.labels,DATA.divide.urbanGap.values,'desc');
+  makeChart('urbanChart', { type:'bar', data:{labels:s.labels,datasets:[{data:s.values,backgroundColor:s.values.map(v=>v>20?'#e05a5a88':'#2ec4a077'),borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw}pp gap`}}},scales:{x:{grid:{display:false},ticks:TICKS_SM},y:{grid:GRID,ticks:{...TICKS,callback:v=>v+'pp'},max:45}}} });
+}
+function buildGrowthChart() {
+  const d=DATA.divide.growth2019;
+  makeChart('growthChart', { type:'bar', data:{labels:d.labels,datasets:[{label:'2019',data:d.values2019,backgroundColor:'#4f8ef733',borderRadius:3,borderSkipped:false},{label:'2024',data:d.values2024,backgroundColor:'#4f8ef7aa',borderRadius:3,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{boxWidth:8,font:{size:10},color:'#7a7875'}}},scales:{x:{grid:{display:false},ticks:TICKS_SM},y:{grid:GRID,ticks:{...TICKS,callback:v=>v+'%'},max:105}}} });
+}
+
+/* Sector */
+function buildReadinessChart() {
+  const d=DATA.sector.readiness;
+  makeChart('readinessChart', { type:'bar', data:{labels:d.labels,datasets:[{label:'Digital',data:d.digital,backgroundColor:'#4f8ef788',borderRadius:4,borderSkipped:false},{label:'AI',data:d.aiReadiness,backgroundColor:'#f59e0b88',borderRadius:4,borderSkipped:false},{label:'E-gov',data:d.eGov,backgroundColor:'#2ec4a088',borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:TICKS_SM},y:{grid:GRID,ticks:TICKS,max:100}}} });
+}
+function buildEcomChart() {
+  const s=sortPair(DATA.sector.ecom.labels,DATA.sector.ecom.values,'desc');
+  makeChart('ecomChart', { type:'bar', data:{labels:s.labels,datasets:[{data:s.values,backgroundColor:'#f59e0b77',borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` $${c.raw}B`}}},scales:{x:{grid:{display:false},ticks:TICKS_SM},y:{grid:GRID,ticks:{...TICKS,callback:v=>'$'+v+'B'}}}} });
+}
+function buildDFSChart() {
+  const s=sortPair(DATA.sector.dfs.labels,DATA.sector.dfs.values,'desc');
+  makeChart('dfsChart', { type:'bar', data:{labels:s.labels,datasets:[{data:s.values,backgroundColor:'#2ec4a077',borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw}%`}}},scales:{x:{grid:{display:false},ticks:TICKS_SM},y:{grid:GRID,ticks:{...TICKS,callback:v=>v+'%'},max:100}}} });
+}
+
+/* ════════════════════════════════════════
+   NATION PROFILE  — Option B "you are here"
+════════════════════════════════════════ */
+function renderNationProfile(tab, el) {
+  const cidx  = COUNTRIES.findIndex(c=>c.id===selectedCountry) - 1;
+  const cinfo = COUNTRIES.find(c=>c.id===selectedCountry);
+  const cfg   = PROFILE_METRICS[tab];
+
+  /* Rank on first metric */
+  const primaryVals = cfg[0].vals();
+  const primaryRank = [...primaryVals].sort((a,b)=>b-a).indexOf(primaryVals[cidx]) + 1;
+  const rankCls     = primaryRank<=3?'top':primaryRank<=7?'mid':'low';
+  const rankLabel   = `#${primaryRank} in ASEAN · ${cfg[0].label}`;
+
+  const note = DATA.market.note[selectedCountry] || '';
+
+  let html = `
+    <div class="nation-header">
+      <div class="nation-flag">${cinfo.flag}</div>
+      <div class="nation-info">
+        <div class="nation-name">${cinfo.name}</div>
+        <div class="nation-tag">Nation profile · ${['Market & Economy','AI Adoption','Digital Divide','Sector & Readiness'][['market','ai','divide','sector'].indexOf(tab)]}</div>
+      </div>
+      <span class="nation-rank ${rankCls}">${rankLabel}</span>
+    </div>`;
+
+  if (note) html += `<div class="nation-note"><strong>Context: </strong>${note}</div>`;
+
+  html += `<div class="profile-grid">`;
+  for (const m of cfg) html += buildYAHCard(m, cidx);
+  html += `</div>`;
+  html += `<p class="profile-source">Sources: Google/Temasek/Bain e-Conomy SEA 2025 · Microsoft AI Report 2025 · DataReportal 2024 · ITU · World Bank · Oxford Insights 2024</p>`;
+
+  el.innerHTML = html;
+}
+
+function buildYAHCard(metric, cidx) {
+  const allVals = metric.vals();
+  const val     = allVals[cidx];
+  const min     = Math.min(...allVals);
+  const max     = Math.max(...allVals);
+  /* for "invert" metrics (e.g. skills gap — lower is better), flip rank */
+  const isInvert= metric.invert === true;
+  const pct     = max===min ? 50 : Math.round(((val-min)/(max-min))*100);
+
+  /* rank (always: highest value = rank 1, unless invert) */
+  const sorted  = [...allVals].sort((a,b)=>isInvert?a-b:b-a);
+  const rank    = sorted.indexOf(val) + 1;
+  const rankCls = rank<=3?'top':rank<=7?'mid':'low';
+
+  const maxIdx  = allVals.indexOf(max);
+  const minIdx  = allVals.indexOf(min);
+  const maxName = LABELS[maxIdx].split(' ')[0];
+  const minName = LABELS[minIdx].split(' ')[0];
+
+  /* formatted display value */
+  const absVal  = Math.abs(val);
+  const fmtVal  = absVal>=10 ? Math.round(val).toString() : absVal>=1 ? val.toFixed(metric.dec).replace(/\.0$/,'') : val.toFixed(metric.dec);
+  const display = metric.prefix + fmtVal + metric.unit;
+
+  /* color map for range fill and dot */
+  const colorHex = { amber:'#f59e0b', blue:'#4f8ef7', green:'#2ec4a0', red:'#e05a5a', purple:'#a78bfa' };
+  const hex = colorHex[metric.color] || '#f59e0b';
+
+  return `
+    <div class="yah-card">
+      <div class="yah-label">${metric.label}</div>
+      <div class="yah-value c-${metric.color}">${display}</div>
+
+      <div class="range-track">
+        <div class="range-fill" style="width:${pct}%;background:linear-gradient(90deg,${hex}33,${hex}bb)"></div>
+        <div class="range-dot"  style="left:${pct}%;background:${hex};box-shadow:0 0 0 2px ${hex}44,0 0 0 1px var(--bg) inset"></div>
+      </div>
+      <div class="range-labels">
+        <span>${metric.prefix}${fmtShort(min)}${metric.unit} <span style="opacity:.6">${minName}</span></span>
+        <span><span style="opacity:.6">${maxName}</span> ${metric.prefix}${fmtShort(max)}${metric.unit}</span>
+      </div>
+
+      <div class="yah-rank">
+        <span class="rank-badge ${rankCls}">#${rank} of 10</span>
+        <span class="yah-rank-label">in ASEAN${isInvert?' (lower = better)':''}</span>
+      </div>
+    </div>`;
+}
+
+/* ════════════════════════════════════════
+   INIT
+════════════════════════════════════════ */
+(function init() {
+  buildButtons();
+  updateViewModeBar();
+  renderAllASEAN('market', document.getElementById('market-content'));
+  /* Lazy-render other tabs on first visit */
+  const rendered = new Set(['market']);
+  document.querySelectorAll('.tab-btn').forEach((btn,i)=>{
+    const tabs=['market','ai','divide','sector'];
+    btn.addEventListener('click',()=>{
+      const t=tabs[i];
+      if (!rendered.has(t)) {
+        renderAllASEAN(t, document.getElementById(`${t}-content`));
+        rendered.add(t);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
