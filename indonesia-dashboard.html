@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Digital Transformation Agency for Archipelago (Nusantara)</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{--ocean:#060d18;--deep:#0a1628;--surface:#0f1e35;--card:#131f33;--card2:#172236;--border:rgba(100,160,255,0.1);--border2:rgba(100,160,255,0.18);--text:#dde8f5;--muted:#6a85a8;--dim:#3a4e68;--blue:#4f8ef7;--teal:#2ec4a0;--amber:#f59e0b;--red:#e05a5a;--purple:#a78bfa;--green:#4ade80;--mono:'JetBrains Mono',monospace;--sans:'Syne',sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--ocean);color:var(--text);min-height:100vh;line-height:1.6;}
+.shell{max-width:1120px;margin:0 auto;padding:0 24px 80px;}
+header{padding:36px 0 24px;border-bottom:1px solid var(--border);margin-bottom:24px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+.hdr-eyebrow{font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;}
+.hdr-title{font-size:21px;font-weight:700;letter-spacing:-0.4px;line-height:1.2;}
+.hdr-title span{color:var(--amber);}
+.hdr-sub{font-size:12px;color:var(--muted);margin-top:4px;font-family:var(--mono);}
+.hdr-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.badge{font-family:var(--mono);font-size:10px;padding:3px 10px;border-radius:20px;white-space:nowrap;}
+.badge-red{background:rgba(224,90,90,0.1);color:#f87171;border:1px solid rgba(224,90,90,0.2);}
+.badge-amber{background:rgba(245,158,11,0.1);color:#fbbf24;border:1px solid rgba(245,158,11,0.2);}
+.badge-blue{background:rgba(79,142,247,0.1);color:#7ab0fa;border:1px solid rgba(79,142,247,0.2);}
+.back-link{font-size:11px;color:var(--muted);text-decoration:none;border:1px solid var(--border2);padding:4px 10px;border-radius:20px;font-family:var(--mono);transition:all .15s;}
+.back-link:hover{color:var(--text);border-color:var(--amber);}
+.tabs{display:flex;gap:2px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:24px;overflow-x:auto;}
+.tab-btn{flex:1;min-width:110px;background:transparent;border:none;color:var(--muted);font-family:var(--sans);font-size:12px;font-weight:500;padding:8px 14px;border-radius:7px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{background:var(--card);color:var(--text);border:1px solid var(--border2);}
+.panel{display:none;}
+.panel.active{display:block;animation:fadeUp .2s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:18px;}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;transition:border-color .15s;}
+.mc:hover{border-color:var(--border2);}
+.mc .lbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:7px;}
+.mc .val{font-size:24px;font-weight:700;letter-spacing:-0.5px;line-height:1;}
+.mc .sub{font-size:10px;color:var(--muted);margin-top:5px;font-family:var(--mono);}
+.c-blue{color:var(--blue);}.c-teal{color:var(--teal);}.c-amber{color:var(--amber);}.c-red{color:var(--red);}.c-green{color:var(--green);}.c-purple{color:var(--purple);}
+.map-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:16px;}
+.map-head{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
+.map-title{font-size:13px;font-weight:600;color:var(--text);}
+.map-src{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px;}
+.map-tabs{display:flex;gap:6px;}
+.map-tab{font-size:11px;font-family:var(--mono);padding:4px 12px;border-radius:20px;border:1px solid var(--border2);color:var(--muted);cursor:pointer;transition:all .15s;background:transparent;}
+.map-tab.active-elec{background:var(--amber);border-color:var(--amber);color:#1a0f00;font-weight:500;}
+.map-tab.active-conn{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:500;}
+.map-canvas-wrap{position:relative;width:100%;border-radius:8px;overflow:hidden;margin-bottom:14px;background:#060f1e;}
+#archipelago{display:block;width:100%;height:auto;}
+.slider-section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:14px;}
+.slider-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
+.time-big{font-family:var(--mono);font-size:26px;font-weight:500;letter-spacing:3px;transition:color .3s;}
+.time-desc{font-size:10px;color:var(--muted);margin-top:2px;font-family:var(--mono);}
+.lbl2{font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.val2{font-family:var(--mono);font-size:14px;font-weight:500;margin-top:2px;transition:color .3s;}
+#hour-slider{width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);}
+#hour-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--ocean);cursor:pointer;background:var(--amber);}
+#hour-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;border:2px solid var(--ocean);cursor:pointer;background:var(--amber);}
+.tick-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:4px;}
+.summary-panel{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:16px;transition:border-color .3s;}
+.sum-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px;}
+.sum-label{font-size:11px;font-weight:600;color:var(--text);}
+.sum-time{font-family:var(--mono);font-size:12px;color:var(--amber);font-weight:500;}
+.sum-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.sum-cell{background:var(--card);border-radius:8px;padding:10px 12px;}
+.s-lbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:5px;}
+.s-val{font-size:15px;font-weight:700;letter-spacing:-0.3px;transition:color .3s;}
+.s-sub{font-size:9px;color:var(--muted);margin-top:3px;font-family:var(--mono);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
+.cc-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.cc-src{font-family:var(--mono);font-size:9px;color:var(--muted);margin-bottom:12px;display:block;}
+.chart-wrap{position:relative;width:100%;}
+.bar-row{margin-bottom:8px;}
+.bar-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:3px;font-family:var(--mono);}
+.bar-track{height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;}
+.prov-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.prov-row:last-child{border:none;}
+.prov-name{font-size:10px;color:var(--muted);}
+.prov-bar-wrap{flex:1;margin:0 10px;}
+.prov-val{font-family:var(--mono);font-size:10px;font-weight:500;min-width:38px;text-align:right;}
+.full-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:16px;}
+.full-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.load-bars{display:flex;gap:2px;align-items:flex-end;height:50px;margin-bottom:5px;}
+.lb{flex:1;border-radius:2px 2px 0 0;min-height:2px;}
+.lb-ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;color:var(--muted);}
+.section-divider{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin:20px 0 12px;display:flex;align-items:center;gap:10px;}
+.section-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.truth-box{background:var(--surface);border:1px solid rgba(245,158,11,0.15);border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:12px;color:var(--muted);line-height:1.8;}
+.truth-box strong{color:var(--amber);}
+.truth-box em{color:var(--text);font-style:normal;}
+.challenge-list{display:flex;flex-direction:column;gap:10px;}
+.chal-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .15s;}
+.chal-card:hover{border-color:var(--border2);}
+.chal-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none;}
+.chal-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.chal-title{font-size:13px;font-weight:600;flex:1;}
+.chal-toggle{font-family:var(--mono);font-size:16px;color:var(--muted);transition:transform .2s;line-height:1;}
+.chal-card.open .chal-toggle{transform:rotate(45deg);}
+.chal-body{display:none;padding:0 18px 16px 38px;border-top:1px solid var(--border);}
+.chal-card.open .chal-body{display:block;}
+.chal-text{font-size:12px;color:var(--muted);line-height:1.7;margin-top:12px;}
+.chal-text strong{color:var(--text);font-weight:500;}
+.chal-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0;}
+.chal-stat{background:var(--surface);border-radius:8px;padding:10px 12px;}
+.cs-lbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px;}
+.cs-val{font-size:16px;font-weight:700;letter-spacing:-0.3px;}
+.chal-source{font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:10px;padding-top:8px;border-top:1px solid var(--border);line-height:1.6;}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-family:var(--mono);font-size:9px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+@media(max-width:700px){.two-col{grid-template-columns:1fr;}.sum-grid{grid-template-columns:1fr 1fr;}header{flex-direction:column;align-items:flex-start;}}
+@media(max-width:480px){.sum-grid{grid-template-columns:1fr;}.metrics{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+  <div>
+    <div class="hdr-eyebrow">Republic of Indonesia · Digital Infrastructure Report</div>
+    <div class="hdr-title">Digital Transformation Agency<br>for <span>Archipelago (Nusantara)</span></div>
+    <div class="hdr-sub">Connectivity · Electricity · Infrastructure gaps · 17,000+ islands</div>
+  </div>
+  <div class="hdr-right">
+    <span class="badge badge-red">86 dark villages</span>
+    <span class="badge badge-amber">Indonesia Focus</span>
+    <span class="badge badge-blue">2024–2025 data</span>
+    <a class="back-link" href="asean-dashboard.html">← ASEAN view</a>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+  <button class="tab-btn" onclick="showTab('connectivity')">Connectivity</button>
+  <button class="tab-btn" onclick="showTab('electricity')">Electricity</button>
+  <button class="tab-btn" onclick="showTab('challenges')">Challenges</button>
+</div>
+
+<div class="map-card">
+  <div class="map-head">
+    <div>
+      <div class="map-title">Indonesia archipelago — time-of-day access map</div>
+      <div class="map-src">Sources: PLN · BPS · DataReportal · APJII · ESDM · MCIT · 2024</div>
+    </div>
+    <div class="map-tabs">
+      <button class="map-tab active-elec" id="btn-elec" onclick="setMapMode('electricity')">Electricity</button>
+      <button class="map-tab" id="btn-conn" onclick="setMapMode('connectivity')">Connectivity</button>
+    </div>
+  </div>
+  <div class="map-canvas-wrap">
+    <canvas id="archipelago" width="900" height="370"></canvas>
+  </div>
+  <div class="slider-section">
+    <div class="slider-top">
+      <div>
+        <div class="time-big" id="time-display">07:00</div>
+        <div class="time-desc" id="time-desc">Morning — Java-Bali grid stable · diesel generators active in east</div>
+      </div>
+      <div>
+        <div class="lbl2" id="stat-label">People with power (est.)</div>
+        <div class="val2" id="stat-value">~253M</div>
+      </div>
+    </div>
+    <input type="range" id="hour-slider" min="0" max="240" value="70" step="1" style="width:100%;margin:8px 0;"/>
+    <div class="tick-row">
+      <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+    </div>
+  </div>
+  <div class="summary-panel" id="summary-panel">
+    <div class="sum-head">
+      <div class="sum-label" id="sum-mode-label">Electricity access snapshot</div>
+      <div class="sum-time" id="sum-time-label">07:00 WIB</div>
+    </div>
+    <div class="sum-grid" id="sum-grid"></div>
+  </div>
+</div>
+
+<div id="panel-overview" class="panel active">
+  <div class="metrics">
+    <div class="mc"><div class="lbl">Internet penetration</div><div class="val c-blue">79%</div><div class="sub">72.8% BPS · APJII 79.5%</div></div>
+    <div class="mc"><div class="lbl">Still offline</div><div class="val c-red">~58–93M</div><div class="sub">People without internet</div></div>
+    <div class="mc"><div class="lbl">Electrification ratio</div><div class="val c-teal">99.4%</div><div class="sub">World Bank 2023 headline</div></div>
+    <div class="mc"><div class="lbl">Truly unelectrified</div><div class="val c-amber">86+ villages</div><div class="sub">3,264 partially served</div></div>
+    <div class="mc"><div class="lbl">Urban internet</div><div class="val c-blue">82.2%</div><div class="sub">vs rural 74%</div></div>
+    <div class="mc"><div class="lbl">Papua PLN access</div><div class="val c-red">49%</div><div class="sub">Grid-connected only</div></div>
+    <div class="mc"><div class="lbl">5-yr growth</div><div class="val c-green">+23pp</div><div class="sub">Internet 2019 to 2024</div></div>
+    <div class="mc"><div class="lbl">DFS adoption</div><div class="val c-purple">65%</div><div class="sub">Digital financial services</div></div>
+  </div>
+  <div class="truth-box">
+    <strong>The two Indonesias:</strong> The headline numbers — <em>99.4% electrification, 79% internet</em> — describe a very different reality depending on which island you live on. Java and Bali enjoy near-universal stable grid power and 4G/5G. Meanwhile <em>Highland Papua sits at 14.1% electrification</em>, interior Kalimantan has no mobile coverage, and millions in eastern islands receive power for only 4–12 hours per day from diesel generators. Drag the slider above to explore this gap across the 24-hour day.
+  </div>
+  <div class="section-divider">Connectivity by generation</div>
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="cc-title">Internet access by age group</div>
+      <span class="cc-src">Source: BPS National Socioeconomic Survey 2024 · APJII 2024</span>
+      <div class="chart-wrap" style="height:200px"><canvas id="ageChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-title">Urban vs rural internet users (% of total users)</div>
+      <span class="cc-src">Source: BPS 2024 · APJII Internet Survey Indonesia</span>
+      <div class="chart-wrap" style="height:200px"><canvas id="urbanChart"></canvas></div>
+    </div>
+  </div>
+  <div class="section-divider">Electrification by province</div>
+  <div class="chart-card">
+    <div class="cc-title">Province electrification rates — eastern Indonesia focus</div>
+    <span class="cc-src">Source: Ministry of Energy & Mineral Resources Indonesia (ESDM) · November 2024</span>
+    <div class="two-col" style="margin-bottom:0;gap:20px;margin-top:12px;">
+      <div id="prov-bars-left"></div>
+      <div id="prov-bars-right"></div>
+    </div>
+  </div>
+</div>
+
+<div id="panel-connectivity" class="panel">
+  <div class="metrics">
+    <div class="mc"><div class="lbl">Internet penetration</div><div class="val c-blue">79.5%</div><div class="sub">APJII 2024 · 215M users</div></div>
+    <div class="mc"><div class="lbl">Still offline</div><div class="val c-red">93.4M</div><div class="sub">33.5% of population</div></div>
+    <div class="mc"><div class="lbl">Mobile penetration</div><div class="val c-teal">128</div><div class="sub">SIM cards per 100 people</div></div>
+    <div class="mc"><div class="lbl">Social media usage</div><div class="val c-purple">68%</div><div class="sub">Of total population</div></div>
+  </div>
+  <div class="section-divider">Speed by region</div>
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="cc-title">Median download speed by island/region (Mbps)</div>
+      <span class="cc-src">Source: Opensignal · Ookla Speedtest Global Index · MCIT 2024</span>
+      <div id="speed-bars"></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-title">Java-Bali network load — 24-hour profile</div>
+      <span class="cc-src">Source: MCIT · Telkomsel network operations data · 2024</span>
+      <div class="load-bars" id="load-bars"></div>
+      <div class="lb-ticks"><span>00:00</span><span style="color:var(--purple)">07▲</span><span>12:00</span><span style="color:var(--red)">19▲</span><span>24:00</span></div>
+      <div style="margin-top:12px;">
+        <div class="bar-row"><div class="bar-lbl"><span>Off-peak 02–05</span><span class="c-teal">~28 Mbps</span></div><div class="bar-track"><div class="bar-fill" style="width:93%;background:var(--teal)"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl"><span>Morning peak 07–09</span><span class="c-purple">~19 Mbps</span></div><div class="bar-track"><div class="bar-fill" style="width:63%;background:var(--purple)"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl"><span>Midday 12–15</span><span class="c-blue">~24 Mbps</span></div><div class="bar-track"><div class="bar-fill" style="width:80%;background:var(--blue)"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl"><span>Evening peak 19–21</span><span class="c-red">~18 Mbps</span></div><div class="bar-track"><div class="bar-fill" style="width:60%;background:var(--red)"></div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-divider">Access breakdown</div>
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="cc-title">Internet access by demographic segment</div>
+      <span class="cc-src">Source: BPS 2024 · APJII Internet Survey Indonesia 2024</span>
+      <div class="chart-wrap" style="height:200px"><canvas id="demoChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-title">Coverage type by region (% population covered)</div>
+      <span class="cc-src">Source: MCIT · Cominfo · OpenSignal SEA Report 2024</span>
+      <div class="chart-wrap" style="height:200px"><canvas id="coverageChart"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<div id="panel-electricity" class="panel">
+  <div class="metrics">
+    <div class="mc"><div class="lbl">Headline electrification</div><div class="val c-teal">99.4%</div><div class="sub">World Bank · gov. 2023</div></div>
+    <div class="mc"><div class="lbl">PLN-connected only</div><div class="val c-amber">~95%</div><div class="sub">Grid — not generator</div></div>
+    <div class="mc"><div class="lbl">Villages truly dark</div><div class="val c-red">86</div><div class="sub">3,264 partially served</div></div>
+    <div class="mc"><div class="lbl">Diesel-dependent</div><div class="val c-amber">~6–12M</div><div class="sub">Eastern islands · limited hrs</div></div>
+  </div>
+  <div class="section-divider">Provincial breakdown</div>
+  <div class="full-card">
+    <div class="full-head">
+      <div class="cc-title">Electrification rate by province</div>
+      <span class="cc-src">Source: ESDM / Ministry of Energy & Mineral Resources · November 2024</span>
+    </div>
+    <div class="chart-wrap" style="height:260px"><canvas id="provChart"></canvas></div>
+  </div>
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="cc-title">Power complaints by category (2024)</div>
+      <span class="cc-src">Source: YLKI Consumer Complaint Profile 2024</span>
+      <div class="chart-wrap" style="height:200px"><canvas id="complaintChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="cc-title">Generator hours per day — eastern Indonesia</div>
+      <span class="cc-src">Source: PLN off-grid program reports · ESDM field surveys 2023</span>
+      <div id="diesel-bars" style="margin-top:4px;"></div>
+    </div>
+  </div>
+</div>
+
+<div id="panel-challenges" class="panel">
+  <div class="metrics">
+    <div class="mc"><div class="lbl">Islands in archipelago</div><div class="val c-blue">17,000+</div><div class="sub">Only ~6,000 inhabited</div></div>
+    <div class="mc"><div class="lbl">Cable cost multiplier</div><div class="val c-red">3–5×</div><div class="sub">vs mainland rollout cost</div></div>
+    <div class="mc"><div class="lbl">Outage complaints</div><div class="val c-amber">42.9%</div><div class="sub">Of all electricity complaints</div></div>
+    <div class="mc"><div class="lbl">Blackout cost/hr</div><div class="val c-red">$1–3M</div><div class="sub">Java metro revenue loss</div></div>
+  </div>
+  <div class="challenge-list" id="challenge-list"></div>
+</div>
+
+<footer>
+  <span>Data: BPS · APJII · PLN · ESDM · World Bank · DataReportal · MCIT · YLKI · Opensignal · Ookla · SEA Public Policy Institute · 2024–2025</span>
+  <span>Built with Chart.js · GitHub Pages</span>
+</footer>
+</div>
+<script>
+var mapMode='electricity';
+var currentHour=7.0;
+var chartsBuilt={};
+Chart.defaults.color='#6a85a8';
+Chart.defaults.font.family="'Syne',sans-serif";
+Chart.defaults.font.size=11;
+var GRID={color:'rgba(100,160,255,0.06)',borderColor:'rgba(100,160,255,0.08)'};
+var TICKS={color:'#6a85a8'};
+var TICKSM={color:'#6a85a8',font:{size:10}};
+var CHARTS={};
+function mkChart(id,cfg){if(CHARTS[id])CHARTS[id].destroy();var el=document.getElementById(id);if(!el)return;CHARTS[id]=new Chart(el,cfg);}
+
+var PROJ={lon0:94.5,lat0:7.0,sx:12.2,sy:-14.5,ox:18,oy:12,
+  x:function(lon){return(lon-this.lon0)*this.sx+this.ox;},
+  y:function(lat){return(lat-this.lat0)*this.sy+this.oy+370;}};
+function ll(lon,lat){return[PROJ.x(lon),PROJ.y(lat)];}
+
+var ISLANDS=[
+  {id:'sumatra',label:'Sumatra',labelAnchor:ll(100,2.0),
+   poly:[ll(95.2,5.7),ll(96.5,5.9),ll(97.8,5.5),ll(98.9,4.2),ll(100.2,3.8),ll(101.5,2.9),ll(102.8,1.8),ll(104.0,1.0),ll(105.8,0.3),ll(106.2,-0.8),ll(106.0,-1.8),ll(105.2,-2.5),ll(104.4,-3.2),ll(103.5,-4.1),ll(102.5,-4.5),ll(101.5,-4.2),ll(100.5,-3.6),ll(99.5,-3.0),ll(98.8,-2.2),ll(98.2,-1.5),ll(97.5,-0.8),ll(96.8,0.0),ll(96.0,0.8),ll(95.5,2.0),ll(95.2,3.5),ll(95.0,4.5),ll(95.2,5.7)],
+   elec:{stable:true,risk:0.05,offHour:null},conn:{cov:0.72,spd4g:0.70}},
+  {id:'java',label:'Java',labelAnchor:ll(111,-6.6),
+   poly:[ll(106.0,-6.0),ll(107.0,-6.3),ll(108.5,-6.8),ll(110.0,-6.9),ll(111.5,-7.0),ll(112.8,-7.2),ll(113.8,-7.4),ll(114.5,-7.8),ll(114.6,-8.2),ll(113.5,-8.5),ll(112.5,-8.3),ll(111.2,-8.2),ll(110.0,-8.1),ll(108.8,-7.8),ll(107.5,-7.5),ll(106.8,-7.0),ll(106.0,-6.0)],
+   elec:{stable:true,risk:0.01,offHour:null},conn:{cov:0.95,spd4g:0.92}},
+  {id:'bali',label:'Bali',labelAnchor:ll(115.3,-7.9),
+   poly:[ll(114.6,-8.1),ll(115.0,-8.0),ll(115.6,-8.1),ll(115.7,-8.5),ll(115.2,-8.7),ll(114.7,-8.5),ll(114.6,-8.1)],
+   elec:{stable:true,risk:0.02,offHour:null},conn:{cov:0.88,spd4g:0.85}},
+  {id:'lombok',label:'NTB',labelAnchor:ll(117.5,-8.3),
+   poly:[ll(116.0,-8.2),ll(116.8,-8.1),ll(117.6,-8.4),ll(118.8,-8.5),ll(119.8,-8.8),ll(120.0,-9.2),ll(119.2,-9.4),ll(118.0,-9.1),ll(117.0,-9.0),ll(116.2,-8.8),ll(116.0,-8.2)],
+   elec:{stable:false,risk:0.25,offHour:20},conn:{cov:0.55,spd4g:0.42}},
+  {id:'ntt',label:'NTT',labelAnchor:ll(122,-8.7),
+   poly:[ll(120.5,-8.5),ll(121.5,-8.6),ll(122.5,-9.0),ll(123.5,-9.5),ll(124.5,-9.8),ll(125.3,-9.4),ll(125.5,-8.8),ll(124.5,-8.5),ll(123.5,-8.3),ll(122.5,-8.4),ll(121.5,-8.5),ll(120.5,-8.5)],
+   elec:{stable:false,risk:0.40,offHour:19},conn:{cov:0.38,spd4g:0.25}},
+  {id:'kalimantan',label:'Kalimantan',labelAnchor:ll(114,0.8),
+   poly:[ll(108.0,1.0),ll(109.5,1.8),ll(110.8,1.5),ll(112.0,1.2),ll(113.5,1.3),ll(114.8,1.8),ll(116.0,2.1),ll(117.3,2.0),ll(118.0,1.2),ll(117.5,0.5),ll(117.8,-0.5),ll(117.5,-1.5),ll(116.8,-2.2),ll(116.0,-3.0),ll(115.5,-3.8),ll(115.0,-4.2),ll(114.2,-4.0),ll(113.5,-3.5),ll(112.8,-2.8),ll(112.0,-2.0),ll(111.0,-1.5),ll(110.5,-1.0),ll(109.8,-0.5),ll(109.0,0.0),ll(108.0,1.0)],
+   elec:{stable:false,risk:0.18,offHour:21},conn:{cov:0.52,spd4g:0.45}},
+  {id:'sulawesi',label:'Sulawesi',labelAnchor:ll(120.5,0.2),
+   poly:[ll(119.5,1.5),ll(120.5,1.0),ll(121.0,0.2),ll(121.5,-0.5),ll(122.0,-1.5),ll(122.5,-2.5),ll(122.8,-3.5),ll(123.0,-4.0),ll(122.5,-4.5),ll(121.8,-3.8),ll(121.5,-2.8),ll(121.0,-2.0),ll(120.5,-1.5),ll(120.0,-2.0),ll(119.8,-3.0),ll(119.5,-3.8),ll(119.0,-4.0),ll(118.8,-3.2),ll(119.2,-2.0),ll(119.5,-1.0),ll(119.5,0.5),ll(119.5,1.5)],
+   elec:{stable:false,risk:0.22,offHour:20},conn:{cov:0.58,spd4g:0.50}},
+  {id:'maluku',label:'Maluku',labelAnchor:ll(127.5,-3.2),
+   poly:[ll(126.5,-3.0),ll(127.5,-3.2),ll(128.5,-3.5),ll(128.8,-4.2),ll(128.2,-4.5),ll(127.5,-4.2),ll(126.8,-3.8),ll(126.5,-3.0)],
+   elec:{stable:false,risk:0.45,offHour:18},conn:{cov:0.30,spd4g:0.20}},
+  {id:'nmaluku',label:'N.Maluku',labelAnchor:ll(127.5,1.2),
+   poly:[ll(126.5,1.5),ll(127.5,1.8),ll(128.0,1.2),ll(127.8,0.5),ll(127.2,0.3),ll(126.5,0.8),ll(126.5,1.5)],
+   elec:{stable:false,risk:0.38,offHour:18.5},conn:{cov:0.32,spd4g:0.22}},
+  {id:'wpapua',label:'W.Papua',labelAnchor:ll(133,-1.2),
+   poly:[ll(131.0,-0.5),ll(132.0,-0.2),ll(133.0,-0.3),ll(133.5,-1.0),ll(133.0,-2.0),ll(132.5,-2.5),ll(132.0,-3.2),ll(131.5,-3.5),ll(131.0,-3.0),ll(130.8,-2.0),ll(131.0,-1.0),ll(131.0,-0.5)],
+   elec:{stable:false,risk:0.55,offHour:17.5},conn:{cov:0.25,spd4g:0.18}},
+  {id:'papua',label:'Papua',labelAnchor:ll(138,-3.8),
+   poly:[ll(133.5,-1.5),ll(134.5,-1.0),ll(135.8,-0.8),ll(137.0,-1.2),ll(138.5,-1.8),ll(139.5,-2.5),ll(140.5,-3.5),ll(141.0,-4.5),ll(141.0,-6.0),ll(140.5,-6.8),ll(139.5,-7.0),ll(138.5,-6.5),ll(137.5,-6.0),ll(136.5,-5.5),ll(135.5,-5.8),ll(134.5,-5.5),ll(133.5,-4.8),ll(133.0,-3.8),ll(133.5,-2.8),ll(133.5,-1.5)],
+   elec:{stable:false,risk:0.72,offHour:17},conn:{cov:0.18,spd4g:0.12}}
+];
+
+var canvas=document.getElementById('archipelago');
+var ctx=canvas.getContext('2d');
+
+function lerp3(r1,g1,b1,r2,g2,b2,t){
+  return 'rgb('+Math.round(r1+(r2-r1)*t)+','+Math.round(g1+(g2-g1)*t)+','+Math.round(b1+(b2-b1)*t)+')';
+}
+
+function getElecFill(isl,hour){
+  if(isl.elec.stable){
+    var demand=Math.max(0,Math.sin(((hour-14)/24)*Math.PI*2)*0.12);
+    return lerp3(20,70,35,10,40,18,demand);
+  }
+  var offH=isl.elec.offHour||24;
+  var dark=0;
+  if(hour>=offH) dark=Math.min(1,(hour-offH)/1.5)*isl.elec.risk*1.5;
+  else if(hour<5.5) dark=Math.max(0,(1-(hour/1.5)))*isl.elec.risk;
+  return lerp3(50,40,14,13,13,10,Math.min(1,dark));
+}
+
+function getConnFill(isl,hour){
+  var morn=(hour>=7&&hour<=9)?((hour-7)/2):(hour>9?0:0);
+  var eve=(hour>=18&&hour<=21)?((hour-18)/3):(hour>21?0:0);
+  var cong=Math.max(morn,eve)*0.4;
+  var s=isl.conn.cov*(1-cong*0.3);
+  if(s>0.75) return lerp3(8,28,58,5,14,30,cong);
+  if(s>0.45) return 'rgb(10,25,42)';
+  if(s>0.25) return 'rgb(14,20,30)';
+  return 'rgb(12,12,18)';
+}
+
+function getElecGlow(isl,hour){
+  if(isl.elec.stable) return 'rgba(74,222,128,0.2)';
+  var offH=isl.elec.offHour||24;
+  var dark=(hour>=offH)?Math.min(1,(hour-offH)/1.5)*isl.elec.risk*1.5:0;
+  if(dark>0.5) return null;
+  if(dark>0.15) return 'rgba(245,158,11,0.12)';
+  return 'rgba(74,222,128,0.08)';
+}
+
+function getConnGlow(isl,hour){
+  var morn=hour>=7&&hour<=9;
+  var eve=hour>=18&&hour<=21;
+  if(isl.conn.cov>0.75){if(morn||eve)return 'rgba(167,139,250,0.22)';return 'rgba(79,142,247,0.2)';}
+  if(isl.conn.cov>0.45) return 'rgba(46,196,160,0.12)';
+  if(isl.conn.cov>0.25) return 'rgba(245,158,11,0.08)';
+  return null;
+}
+
+function drawMap(hour){
+  var W=900,H=370;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#060f1e';ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(100,160,255,0.04)';ctx.lineWidth=0.5;
+  for(var x=0;x<W;x+=60){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(var y=0;y<H;y+=50){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  var eqY=PROJ.y(0);
+  ctx.strokeStyle='rgba(100,160,255,0.1)';ctx.lineWidth=0.8;ctx.setLineDash([4,6]);
+  ctx.beginPath();ctx.moveTo(0,eqY);ctx.lineTo(W,eqY);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='rgba(100,160,255,0.2)';ctx.font='9px JetBrains Mono,monospace';
+  ctx.fillText('0\u00b0 equator',4,eqY-3);
+  ISLANDS.forEach(function(isl){
+    var fill=mapMode==='electricity'?getElecFill(isl,hour):getConnFill(isl,hour);
+    var glow=mapMode==='electricity'?getElecGlow(isl,hour):getConnGlow(isl,hour);
+    var pts=isl.poly;
+    if(glow){
+      ctx.save();ctx.shadowColor=glow;ctx.shadowBlur=20;
+      ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+      pts.slice(1).forEach(function(p){ctx.lineTo(p[0],p[1]);});
+      ctx.closePath();ctx.fillStyle=glow;ctx.fill();ctx.restore();
+    }
+    ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+    pts.slice(1).forEach(function(p){ctx.lineTo(p[0],p[1]);});
+    ctx.closePath();ctx.fillStyle=fill;ctx.fill();
+    ctx.strokeStyle=mapMode==='electricity'?'rgba(74,222,128,0.15)':'rgba(79,142,247,0.15)';
+    ctx.lineWidth=0.8;ctx.stroke();
+    var la=isl.labelAnchor;
+    ctx.fillStyle='rgba(180,210,255,0.45)';ctx.font='9px JetBrains Mono,monospace';
+    ctx.textAlign='center';ctx.fillText(isl.label,la[0],la[1]);
+  });
+  var hh=String(Math.floor(hour)).padStart(2,'0');
+  var mm=String(Math.round((hour%1)*60)).padStart(2,'0');
+  ctx.fillStyle='rgba(245,158,11,0.75)';ctx.font='bold 13px JetBrains Mono,monospace';
+  ctx.textAlign='right';ctx.fillText(hh+':'+mm+' WIB',W-10,18);
+  ctx.fillStyle=mapMode==='electricity'?'rgba(74,222,128,0.6)':'rgba(79,142,247,0.6)';
+  ctx.font='10px JetBrains Mono,monospace';ctx.textAlign='left';
+  ctx.fillText(mapMode==='electricity'?'ELECTRICITY':'CONNECTIVITY',10,18);
+}
+
+var ESTATES=[
+  {h:0,desc:'Night \u2014 Java-Bali stable \xb7 eastern diesel generators running',stat:'~248M with power',col:'#4f8ef7'},
+  {h:5,desc:'Pre-dawn \u2014 eastern generators approaching morning cycle shutdown',stat:'~245M with power',col:'#4f8ef7'},
+  {h:7,desc:'Morning \u2014 Java-Bali grid stable \xb7 diesel generators active in east',stat:'~253M with power',col:'#2ec4a0'},
+  {h:12,desc:'Midday \u2014 peak demand Java \xb7 eastern islands running on generator',stat:'~251M with power',col:'#2ec4a0'},
+  {h:17,desc:'Afternoon \u2014 Papua generators beginning to shut down (~17:00)',stat:'~242M with power',col:'#f59e0b'},
+  {h:18,desc:'Evening \u2014 Maluku generators off \xb7 Java-Bali under peak load',stat:'~238M with power',col:'#f59e0b'},
+  {h:19,desc:'Night \u2014 NTT, Maluku, W.Papua off \xb7 ~6\u201312M people in darkness',stat:'~233M with power',col:'#e05a5a'},
+  {h:21,desc:'Late night \u2014 most eastern diesel off \xb7 Java-Bali stable',stat:'~231M with power',col:'#e05a5a'},
+  {h:23,desc:'Midnight \u2014 Java-Bali grid holds \xb7 eastern islands dark until 05:30',stat:'~230M with power',col:'#6a85a8'},
+];
+var CSTATES=[
+  {h:0,desc:'Night \u2014 off-peak \xb7 best 4G speeds on Java-Bali',stat:'~28 Mbps Java avg',col:'#4f8ef7'},
+  {h:6,desc:'Early morning \u2014 network load rising as users wake',stat:'~26 Mbps Java avg',col:'#4f8ef7'},
+  {h:7,desc:'Morning peak \u2014 Java-Bali congested \xb7 speeds drop ~25%',stat:'~19 Mbps Java avg',col:'#a78bfa'},
+  {h:9,desc:'Mid-morning \u2014 congestion easing \xb7 Papua coastal 2G-only',stat:'~22 Mbps Java avg',col:'#4f8ef7'},
+  {h:12,desc:'Midday \u2014 stable load \xb7 interior Kalimantan no coverage all day',stat:'~24 Mbps Java avg',col:'#2ec4a0'},
+  {h:18,desc:'Evening \u2014 load rising \xb7 streaming drives network congestion',stat:'~21 Mbps Java avg',col:'#f59e0b'},
+  {h:19,desc:'Evening peak \u2014 Java worst speeds of day \xb7 Papua still 2G',stat:'~18 Mbps Java avg',col:'#e05a5a'},
+  {h:21,desc:'Night peak fading \u2014 network recovering',stat:'~22 Mbps Java avg',col:'#4f8ef7'},
+  {h:23,desc:'Late night \u2014 near off-peak \xb7 best time for large transfers',stat:'~26 Mbps Java avg',col:'#4f8ef7'},
+];
+
+function getState(hour,arr){var b=arr[0];for(var i=0;i<arr.length;i++){if(hour>=arr[i].h)b=arr[i];}return b;}
+
+function elecSummary(h){
+  var offP=h>=17?Math.min(1,(h-17)/2):0;
+  var offM=h>=18?Math.min(1,(h-18)/1.5):0;
+  var offN=h>=19?Math.min(1,(h-19)/1):0;
+  var aff=Math.round((offP*4.2+offM*1.8+offN*1.2)*10)/10;
+  return [
+    {lbl:'Java-Bali grid',val:'Stable',sub:'~99.8% uptime',col:'#4ade80'},
+    {lbl:'Eastern affected',val:'~'+aff+'M',sub:'No power now',col:h>=17?'#e05a5a':'#4ade80'},
+    {lbl:'Papua elec. rate',val:'49%',sub:'PLN-connected only',col:'#f59e0b'},
+    {lbl:'Diesel generators',val:h>=20?'Mostly off':'Running',sub:'E. Indonesia off-grid',col:h>=20?'#e05a5a':'#f59e0b'},
+  ];
+}
+function connSummary(h){
+  var morn=(h>=7&&h<=9)?(h-7)/2:(h>9?0:0);
+  var eve=(h>=18&&h<=21)?(h-18)/3:(h>21?0:0);
+  var cong=Math.max(morn,eve);
+  var spd=Math.round((24.5-cong*6.5)*10)/10;
+  var users=Math.round(45+cong*49);
+  return [
+    {lbl:'Java-Bali speed',val:spd+' Mbps',sub:'Median download',col:spd>22?'#4ade80':spd>18?'#f59e0b':'#e05a5a'},
+    {lbl:'Active users',val:'~'+users+'M',sub:'Estimated online',col:cong>0.5?'#a78bfa':'#4f8ef7'},
+    {lbl:'Papua signal',val:'2G coastal',sub:'Interior: no coverage',col:'#e05a5a'},
+    {lbl:'Network status',val:cong>0.5?'Congested':'Normal',sub:'Java-Bali towers',col:cong>0.5?'#e05a5a':'#4ade80'},
+  ];
+}
+
+function updateUI(hour){
+  var hh=String(Math.floor(hour)).padStart(2,'0');
+  var mm=String(Math.round((hour%1)*60)).padStart(2,'0');
+  var ts=hh+':'+mm;
+  var st=getState(hour,mapMode==='electricity'?ESTATES:CSTATES);
+  document.getElementById('time-display').textContent=ts;
+  document.getElementById('time-display').style.color=st.col;
+  document.getElementById('time-desc').textContent=st.desc;
+  document.getElementById('stat-value').textContent=st.stat;
+  document.getElementById('stat-value').style.color=st.col;
+  document.getElementById('sum-time-label').textContent=ts+' WIB';
+  var cells=mapMode==='electricity'?elecSummary(hour):connSummary(hour);
+  document.getElementById('sum-grid').innerHTML=cells.map(function(c){
+    return '<div class="sum-cell"><div class="s-lbl">'+c.lbl+'</div><div class="s-val" style="color:'+c.col+'">'+c.val+'</div><div class="s-sub">'+c.sub+'</div></div>';
+  }).join('');
+  document.getElementById('stat-label').textContent=mapMode==='electricity'?'People with power (est.)':'Java-Bali median speed';
+  document.getElementById('sum-mode-label').textContent=mapMode==='electricity'?'Electricity access snapshot':'Network status snapshot';
+  document.getElementById('summary-panel').style.borderColor=mapMode==='electricity'?'rgba(74,222,128,0.2)':'rgba(79,142,247,0.2)';
+}
+
+document.getElementById('hour-slider').addEventListener('input',function(){
+  currentHour=this.value/10;drawMap(currentHour);updateUI(currentHour);
+});
+
+function setMapMode(mode){
+  mapMode=mode;
+  document.getElementById('btn-elec').className='map-tab'+(mode==='electricity'?' active-elec':'');
+  document.getElementById('btn-conn').className='map-tab'+(mode==='connectivity'?' active-conn':'');
+  drawMap(currentHour);updateUI(currentHour);
+}
+
+var TABS=['overview','connectivity','electricity','challenges'];
+function showTab(id){
+  TABS.forEach(function(t,i){
+    document.querySelectorAll('.tab-btn')[i].classList.toggle('active',t===id);
+    document.getElementById('panel-'+t).classList.toggle('active',t===id);
+  });
+  if(!chartsBuilt[id]){buildFor(id);chartsBuilt[id]=true;}
+}
+
+function buildFor(tab){
+  if(tab==='overview')buildOverview();
+  if(tab==='connectivity')buildConn();
+  if(tab==='electricity')buildElec();
+  if(tab==='challenges')buildChallenges();
+}
+
+function buildOverview(){
+  mkChart('ageChart',{type:'bar',
+    data:{labels:['Gen Z 12-27','Millennial 28-43','Gen X 44-59','Boomer 60-78'],
+      datasets:[{data:[87,79,68,60.5],backgroundColor:['#4f8ef7','#4f8ef7aa','#4f8ef766','#4f8ef744'],borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+c.raw+'%';}}}},
+      scales:{x:{grid:{display:false},ticks:TICKSM},y:{grid:GRID,ticks:{color:'#6a85a8',callback:function(v){return v+'%';}},max:100}}}});
+  mkChart('urbanChart',{type:'doughnut',
+    data:{labels:['Urban users (82.2%)','Rural users (74%)','Offline urban','Offline rural'],
+      datasets:[{data:[42.2,30.5,9.8,17.5],backgroundColor:['#4f8ef7','#2ec4a0','#4f8ef722','#2ec4a022'],borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
+      plugins:{legend:{display:true,position:'right',labels:{boxWidth:10,font:{size:9},color:'#6a85a8',padding:8}}}}});
+  var pl=[{name:'Highland Papua',pct:14.1,col:'#e05a5a'},{name:'Central Papua',pct:49.3,col:'#e05a5a'},{name:'South Papua',pct:75.5,col:'#f59e0b'},{name:'E. Nusa Tenggara',pct:87.5,col:'#f59e0b'}];
+  var pr=[{name:'North Maluku',pct:88.2,col:'#f59e0b'},{name:'West Papua',pct:89.1,col:'#f59e0b'},{name:'SW Papua',pct:88.2,col:'#f59e0b'},{name:'Java-Bali (avg.)',pct:99.8,col:'#4ade80'}];
+  ['prov-bars-left','prov-bars-right'].forEach(function(id,i){
+    document.getElementById(id).innerHTML=(i===0?pl:pr).map(function(p){
+      return '<div class="prov-row"><div class="prov-name">'+p.name+'</div><div class="prov-bar-wrap"><div style="width:'+p.pct+'%;background:'+p.col+';height:4px;border-radius:2px;"></div></div><div class="prov-val" style="color:'+p.col+'">'+p.pct+'%</div></div>';
+    }).join('');
+  });
+}
+
+function buildConn(){
+  var spds=[{n:'Java (urban)',v:24.5,c:'#4f8ef7'},{n:'Bali',v:22.1,c:'#4f8ef7aa'},{n:'Sumatra (urban)',v:16.8,c:'#2ec4a0'},{n:'Kalimantan',v:12.4,c:'#2ec4a0aa'},{n:'Sulawesi',v:9.2,c:'#f59e0b'},{n:'NTT / Maluku',v:6.1,c:'#f59e0baa'},{n:'Papua (coastal)',v:3.8,c:'#e05a5a'}];
+  document.getElementById('speed-bars').innerHTML=spds.map(function(s){
+    return '<div class="bar-row"><div class="bar-lbl"><span>'+s.n+'</span><span style="color:'+s.c+'">'+s.v+' Mbps</span></div><div class="bar-track"><div class="bar-fill" style="width:'+(s.v/30*100).toFixed(1)+'%;background:'+s.c+'"></div></div></div>';
+  }).join('');
+  var loads=[20,15,12,10,10,18,45,75,72,60,52,55,58,60,62,65,70,85,100,95,80,60,38,25];
+  var lc=loads.map(function(v,i){if(i>=7&&i<=9)return '#a78bfa';if(i>=18&&i<=21)return '#e05a5a';if(v>60)return '#f59e0b';return '#4f8ef7';});
+  document.getElementById('load-bars').innerHTML=loads.map(function(v,i){
+    return '<div class="lb" style="height:'+v+'%;background:'+lc[i]+'99;"></div>';
+  }).join('');
+  mkChart('demoChart',{type:'bar',
+    data:{labels:['Urban','Rural','Male','Female','Java','Sumatra','Kalimantan','Papua'],
+      datasets:[{data:[82.2,74,87.6,85.5,91,78,68,52],backgroundColor:['#4f8ef7','#2ec4a0','#4f8ef7','#a78bfa','#4f8ef7','#2ec4a0','#f59e0b','#e05a5a'],borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+c.raw+'%';}}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#6a85a8',font:{size:9},maxRotation:35}},y:{grid:GRID,ticks:{color:'#6a85a8',callback:function(v){return v+'%';}},max:100}}}});
+  mkChart('coverageChart',{type:'doughnut',
+    data:{labels:['4G/5G (Java-Bali-Sumatra)','3G (Kalimantan-Sulawesi)','2G (Maluku-NTT)','No coverage (Papua interior)'],
+      datasets:[{data:[52,24,14,10],backgroundColor:['#4f8ef7','#2ec4a0','#f59e0b','#e05a5a'],borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
+      plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,font:{size:9},color:'#6a85a8',padding:8}}}}});
+}
+
+function buildElec(){
+  var pvl=['Highland\nPapua','Central\nPapua','South\nPapua','E. Nusa\nTenggara','N. Maluku','SW Papua','W. Papua','Papua','Java-Bali'];
+  var pvv=[14.1,49.3,75.5,87.5,88.2,88.2,89.1,89.8,99.8];
+  var pvc=pvv.map(function(v){return v<50?'#e05a5a':v<90?'#f59e0b':'#4ade80';});
+  mkChart('provChart',{type:'bar',
+    data:{labels:pvl,datasets:[{data:pvv,backgroundColor:pvc,borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+c.raw+'%';}}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#6a85a8',font:{size:10}}},y:{grid:GRID,ticks:{color:'#6a85a8',callback:function(v){return v+'%';}},max:105}}}});
+  mkChart('complaintChart',{type:'doughnut',
+    data:{labels:['Power outages (42.9%)','Voltage issues (21.3%)','Billing errors (18.4%)','Meter problems (10.1%)','Other (7.3%)'],
+      datasets:[{data:[42.9,21.3,18.4,10.1,7.3],backgroundColor:['#e05a5a','#f59e0b','#a78bfa','#4f8ef7','#6a85a8'],borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'58%',
+      plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,font:{size:9},color:'#6a85a8',padding:6}}}}});
+  var db=[{r:'Highland Papua',h:4,c:'#e05a5a'},{r:'Central Papua',h:6,c:'#e05a5a'},{r:'Remote Maluku',h:8,c:'#f59e0b'},{r:'NTT interior',h:8,c:'#f59e0b'},{r:'W. Papua remote',h:10,c:'#f59e0b'},{r:'Sulawesi interior',h:12,c:'#f59e0baa'},{r:'Kalimantan remote',h:14,c:'#f59e0b88'},{r:'Java-Bali grid',h:24,c:'#4ade80'}];
+  document.getElementById('diesel-bars').innerHTML=db.map(function(d){
+    return '<div class="bar-row"><div class="bar-lbl"><span>'+d.r+'</span><span style="color:'+d.c+'">'+d.h+'h/day</span></div><div class="bar-track"><div class="bar-fill" style="width:'+(d.h/24*100).toFixed(0)+'%;background:'+d.c+'"></div></div></div>';
+  }).join('');
+}
+
+var CHALS=[
+  {color:'#e05a5a',title:'Geographic fragmentation — 17,000+ islands',
+   stats:[{l:'Inhabited islands',v:'~6,000'},{l:'Cable cost multiplier',v:'3-5x'},{l:'Archipelago span',v:'5,100 km'},{l:'Ocean territory',v:'3.3M km²'}],
+   body:'<strong>The fundamental challenge</strong> is Indonesia\'s geography. Submarine fiber cables between islands cost 3–5× more than mainland infrastructure. Many islands in Maluku, NTT, and Papua can only be reached by satellite or microwave links with limited bandwidth. The 2021 Palapa Ring project connected 57 cities with 12,000+ km of fiber, but last-mile connectivity from city nodes to rural villages remains unresolved on most outer islands.',
+   src:'Palapa Ring Project — Kemenkominfo 2021 · World Bank Infrastructure Indonesia Review 2023 · GSMA Mobile Economy Southeast Asia 2024'},
+  {color:'#f59e0b',title:'Diesel dependency in eastern Indonesia',
+   stats:[{l:'Off-grid communities',v:'~3,300+'},{l:'Generator hrs/day',v:'4–12h'},{l:'Diesel cost premium',v:'3–6× grid'},{l:'People affected',v:'~6–12M'}],
+   body:'<strong>Diesel generators</strong> power the majority of off-grid communities in Papua, Maluku, and remote Kalimantan. They are expensive (fuel logistics to remote areas adds 300–600% to per-kWh cost), unreliable, and limited to 4–12 hours per day in the most remote areas. This means internet access, refrigeration, health facilities, and economic activity all shut down when the generator stops — typically after 19:00–21:00. PLN\'s PLTS solar micro-grid program aims to replace 2,130 diesel units, but progress is slow due to terrain and budget.',
+   src:'PLN Statistics 2023 · ESDM Ministry off-grid electrification report 2024 · Institute for Essential Services Reform (IESR) Indonesia 2024'},
+  {color:'#4f8ef7',title:'Urban-rural digital divide — 23pp internet gap',
+   stats:[{l:'Urban penetration',v:'82.2%'},{l:'Rural penetration',v:'74%'},{l:'Rural share of users',v:'30.5%'},{l:'Rural share of pop.',v:'~41%'}],
+   body:'<strong>Rural Indonesia</strong> accounts for ~41% of the population but only 30.5% of internet users. Beyond the penetration gap, rural users experience significantly slower speeds (3G or 2G in many areas), higher data costs relative to income, and lower digital literacy. The BPS 2024 survey shows rural access improved from 56% in 2019 to 74% in 2024 — significant progress, but the urban-rural gap has barely narrowed because urban areas also grew simultaneously.',
+   src:'BPS National Socioeconomic Survey (SUSENAS) 2024 · APJII Internet Survey 2024 · DataReportal Indonesia Digital 2024'},
+  {color:'#a78bfa',title:'The electrification definition gap',
+   stats:[{l:'Gov. rate',v:'99.78%'},{l:'PLN-grid only',v:'~95%'},{l:'Papua PLN only',v:'49%'},{l:'Definition: 1 lamp = electrified',v:'Thousands'}],
+   body:'<strong>Indonesia\'s headline 99.78%</strong> counts a village as "electrified" if at least one household or facility has any electricity source — including a single streetlight on a diesel generator. When restricted to PLN (national grid) connections only, the rate drops to ~95% nationally and just 49% in Papua. The Ministry of Energy has begun distinguishing between "electrification ratio" (broad) and "PLN electrification ratio" (grid-connected only) in official reporting since 2023.',
+   src:'ESDM Ministry of Energy & Mineral Resources · Directorate General of Electricity 2024 · PLN Annual Statistics 2023 · IESR 2024'},
+  {color:'#2ec4a0',title:'Network reliability — outages and congestion',
+   stats:[{l:'Outage complaints',v:'42.9%'},{l:'Blackout cost/hr',v:'$1–3M'},{l:'Weather-related outages',v:'>95%'},{l:'2019 Jakarta blackout',v:'30M+ people'}],
+   body:'<strong>Even where electricity exists</strong>, reliability is a serious challenge. YLKI 2024 shows 42.9% of electricity complaints are about outages. Over 95% of outages in Java-Bali are caused by wind and heavy rainfall. A single major outage costs $1–3 million per hour in lost economic activity. The August 2019 Jakarta blackout affected 30M+ people for up to 9 hours. For connectivity, evening congestion (19:00–21:00) drops Java-Bali 4G speeds by 25–35% from off-peak baseline.',
+   src:'YLKI Consumer Complaint Profile 2024 · PLN Network Operations Report · MCIT Annual Report 2023 · Reuters 2019 Jakarta blackout · Opensignal Mobile Experience Indonesia 2024'},
+  {color:'#f87171',title:'Digital skills and literacy gap',
+   stats:[{l:'Digital literacy index',v:'52.5/100'},{l:'ICT-skilled workforce',v:'~12%'},{l:'AI skills shortage (firms)',v:'57%'},{l:'Gov. literacy target',v:'75/100'}],
+   body:'<strong>Infrastructure alone is insufficient</strong> without digital skills. Indonesia\'s National Digital Literacy Index scored 52.5/100 in 2023, below the government\'s 75/100 target. Only ~12% of the workforce has advanced ICT skills. 57% of Indonesian businesses cite AI skills shortage as a barrier to digital transformation — highest in ASEAN. The government\'s 100,000 Digital Talents and Digital Leadership Academy programs aim to address this, but progress against a 280M population is slow.',
+   src:'Kominfo Digital Literacy Survey 2023 · Microsoft AI Opportunity Study Indonesia 2025 · World Bank Digital Economy for East Asia 2024 · Fintech News Singapore 2025'},
+];
+
+function buildChallenges(){
+  document.getElementById('challenge-list').innerHTML=CHALS.map(function(c,i){
+    return '<div class="chal-card" id="ch'+i+'">'
+      +'<div class="chal-header" onclick="toggleChal('+i+')">'
+      +'<div class="chal-dot" style="background:'+c.color+'"></div>'
+      +'<div class="chal-title">'+c.title+'</div>'
+      +'<div class="chal-toggle">+</div></div>'
+      +'<div class="chal-body">'
+      +'<div class="chal-stats">'+c.stats.map(function(s){
+        return '<div class="chal-stat"><div class="cs-lbl">'+s.l+'</div><div class="cs-val" style="color:'+c.color+'">'+s.v+'</div></div>';
+      }).join('')+'</div>'
+      +'<div class="chal-text">'+c.body+'</div>'
+      +'<div class="chal-source">Sources: '+c.src+'</div>'
+      +'</div></div>';
+  }).join('');
+}
+
+function toggleChal(i){document.getElementById('ch'+i).classList.toggle('open');}
+
+(function init(){
+  drawMap(currentHour);
+  updateUI(currentHour);
+  buildFor('overview');
+  chartsBuilt['overview']=true;
+})();
+</script>
+</body>
+</html>
