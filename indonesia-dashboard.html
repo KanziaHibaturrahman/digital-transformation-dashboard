@@ -312,9 +312,9 @@ var TICKSM={color:'#6a85a8',font:{size:10}};
 var CHARTS={};
 function mkChart(id,cfg){if(CHARTS[id])CHARTS[id].destroy();var el=document.getElementById(id);if(!el)return;CHARTS[id]=new Chart(el,cfg);}
 
-var PROJ={lon0:94.5,lat0:7.0,sx:12.2,sy:-14.5,ox:18,oy:12,
-  x:function(lon){return(lon-this.lon0)*this.sx+this.ox;},
-  y:function(lat){return(lat-this.lat0)*this.sy+this.oy+370;}};
+var PROJ={lonMin:95,latMax:6.2,sx:18.15,sy:18.80,pad:28,
+  x:function(lon){return(lon-this.lonMin)*this.sx+this.pad;},
+  y:function(lat){return(this.latMax-lat)*this.sy+this.pad;}};
 function ll(lon,lat){return[PROJ.x(lon),PROJ.y(lat)];}
 
 var ISLANDS=[
