@@ -118,10 +118,9 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-
 .tab-intro-title{font-size:14px;font-weight:600;margin-bottom:6px;}
 .tab-intro-text{font-size:12px;color:var(--muted);line-height:1.75;}
 .tab-intro-text strong{color:var(--text);font-weight:500;}
-/* map embed (clone of shared map, bottom of tabs) */
-.map-embed{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-top:4px;}
-.map-embed .map-canvas-wrap{border-radius:8px;overflow:hidden;background:#060f1e;margin-bottom:14px;}
-.map-embed canvas{display:block;width:100%;aspect-ratio:900/370;}
+/* map slot — receives the shared map block when tab changes */
+.map-slot-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin:20px 0 12px;display:flex;align-items:center;gap:10px;}
+.map-slot-label::after{content:'';flex:1;height:1px;background:var(--border);}
 @media(max-width:700px){.two-col{grid-template-columns:1fr;}.sum-grid{grid-template-columns:1fr 1fr;}header{flex-direction:column;align-items:flex-start;}}
 @media(max-width:480px){.sum-grid{grid-template-columns:1fr;}.metrics{grid-template-columns:1fr 1fr;}}
 </style>
@@ -149,47 +148,47 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-
   <button class="tab-btn" onclick="showTab('challenges')">Challenges</button>
 </div>
 
-<div class="map-card" id="shared-map">
-  <div class="map-head">
-    <div>
-      <div class="map-title">Indonesia archipelago — time-of-day access map</div>
-      <div class="map-src">Sources: <a href="https://www.pln.co.id" target="_blank">PLN</a> · <a href="https://www.bps.go.id" target="_blank">BPS</a> · <a href="https://datareportal.com" target="_blank">DataReportal</a> · <a href="https://apjii.or.id" target="_blank">APJII</a> · <a href="https://www.esdm.go.id" target="_blank">ESDM</a> · <a href="https://www.kominfo.go.id" target="_blank">MCIT</a> · 2024</div>
-    </div>
-    <div class="map-tabs">
-      <button class="map-tab active-elec" id="btn-elec" onclick="setMapMode('electricity')">Electricity</button>
-      <button class="map-tab" id="btn-conn" onclick="setMapMode('connectivity')">Connectivity</button>
-    </div>
-  </div>
-  <div class="map-canvas-wrap">
-    <canvas id="archipelago" width="900" height="370"></canvas>
-  </div>
-  <div class="slider-section">
-    <div class="slider-top">
-      <div>
-        <div class="time-big" id="time-display">07:00</div>
-        <div class="time-desc" id="time-desc">Morning — Java-Bali grid stable · diesel generators active in east</div>
-      </div>
-      <div>
-        <div class="lbl2" id="stat-label">People with power (est.)</div>
-        <div class="val2" id="stat-value">~253M</div>
-      </div>
-    </div>
-    <input type="range" id="hour-slider" min="0" max="240" value="70" step="1" style="width:100%;margin:8px 0;"/>
-    <div class="tick-row">
-      <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
-    </div>
-  </div>
-  <div class="summary-panel" id="summary-panel">
-    <div class="sum-head">
-      <div class="sum-label" id="sum-mode-label">Electricity access snapshot</div>
-      <div class="sum-time" id="sum-time-label">07:00 WIB</div>
-    </div>
-    <div class="sum-grid" id="sum-grid"></div>
-  </div>
-</div>
-
 <!-- ══ PANEL: OVERVIEW ══ -->
 <div id="panel-overview" class="panel active">
+
+  <div class="map-card" id="shared-map">
+    <div class="map-head">
+      <div>
+        <div class="map-title">Indonesia archipelago — time-of-day access map</div>
+        <div class="map-src">Sources: <a href="https://www.pln.co.id" target="_blank">PLN</a> · <a href="https://www.bps.go.id" target="_blank">BPS</a> · <a href="https://datareportal.com" target="_blank">DataReportal</a> · <a href="https://apjii.or.id" target="_blank">APJII</a> · <a href="https://www.esdm.go.id" target="_blank">ESDM</a> · <a href="https://www.kominfo.go.id" target="_blank">MCIT</a> · 2024</div>
+      </div>
+      <div class="map-tabs">
+        <button class="map-tab active-elec" id="btn-elec" onclick="setMapMode('electricity')">Electricity</button>
+        <button class="map-tab" id="btn-conn" onclick="setMapMode('connectivity')">Connectivity</button>
+      </div>
+    </div>
+    <div class="map-canvas-wrap">
+      <canvas id="archipelago" width="900" height="370"></canvas>
+    </div>
+    <div class="slider-section">
+      <div class="slider-top">
+        <div>
+          <div class="time-big" id="time-display">07:00</div>
+          <div class="time-desc" id="time-desc">Morning — Java-Bali grid stable · diesel generators active in east</div>
+        </div>
+        <div>
+          <div class="lbl2" id="stat-label">People with power (est.)</div>
+          <div class="val2" id="stat-value">~253M</div>
+        </div>
+      </div>
+      <input type="range" id="hour-slider" min="0" max="240" value="70" step="1" style="width:100%;margin:8px 0;"/>
+      <div class="tick-row">
+        <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+      </div>
+    </div>
+    <div class="summary-panel" id="summary-panel">
+      <div class="sum-head">
+        <div class="sum-label" id="sum-mode-label">Electricity access snapshot</div>
+        <div class="sum-time" id="sum-time-label">07:00 WIB</div>
+      </div>
+      <div class="sum-grid" id="sum-grid"></div>
+    </div>
+  </div>
   <div class="metrics">
     <div class="mc"><div class="lbl">Internet penetration</div><div class="val c-blue">79%</div><div class="sub">72.8% BPS · APJII 79.5%</div></div>
     <div class="mc"><div class="lbl">Still offline</div><div class="val c-red">~58–93M</div><div class="sub">People without internet</div></div>
@@ -276,7 +275,7 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-
     </div>
   </div>
   <div class="section-divider">Archipelago map — connectivity view</div>
-  <div class="map-embed" id="map-embed-connectivity"></div>
+  <div id="map-slot-connectivity"></div>
 </div>
 
 <!-- ══ PANEL: ELECTRICITY ══ -->
@@ -315,7 +314,7 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-
     </div>
   </div>
   <div class="section-divider">Archipelago map — electricity view</div>
-  <div class="map-embed" id="map-embed-electricity"></div>
+  <div id="map-slot-electricity"></div>
 </div>
 
 <!-- ══ PANEL: CHALLENGES ══ -->
@@ -335,7 +334,7 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-
   </div>
   <div class="challenge-list" id="challenge-list"></div>
   <div class="section-divider">Archipelago map — context view</div>
-  <div class="map-embed" id="map-embed-challenges"></div>
+  <div id="map-slot-challenges"></div>
 </div>
 
 <footer>
@@ -574,33 +573,23 @@ function showTab(id){
     document.querySelectorAll('.tab-btn')[i].classList.toggle('active',t===id);
     document.getElementById('panel-'+t).classList.toggle('active',t===id);
   });
-  /* auto-switch map mode to match tab */
+
+  /* physically move the single map block to the right location */
+  var mapEl=document.getElementById('shared-map');
+  if(id==='overview'){
+    /* slot it as first child of overview panel */
+    var ovPanel=document.getElementById('panel-overview');
+    if(ovPanel.firstChild!==mapEl) ovPanel.insertBefore(mapEl,ovPanel.firstChild);
+  } else {
+    /* slot it into the bottom placeholder of the active tab */
+    var slot=document.getElementById('map-slot-'+id);
+    if(slot && slot.firstChild!==mapEl) slot.appendChild(mapEl);
+  }
+
+  /* auto-switch map mode to match tab context */
   if(id==='connectivity') setMapMode('connectivity');
   else setMapMode('electricity');
-  /* render bottom map embed for non-overview tabs */
-  if(id!=='overview'){
-    var embedId='map-embed-'+id;
-    var el=document.getElementById(embedId);
-    if(el&&!el.dataset.built){
-      el.innerHTML='<div class="map-head" style="margin-bottom:14px;">'
-        +'<div><div class="map-title">Indonesia archipelago — time-of-day access map</div>'
-        +'<div class="map-src">Interact with slider above to animate · same data, full map</div></div>'
-        +'<div class="map-tabs">'
-        +'<button class="map-tab '+(id==='connectivity'?'active-conn':'active-elec')+'" onclick="scrollToMap()">↑ Go to interactive map</button>'
-        +'</div></div>'
-        +'<div class="map-canvas-wrap"><canvas id="canvas-'+id+'" width="900" height="370"></canvas></div>'
-        +'<div style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:8px;">Showing '+id+' access at '+String(Math.floor(currentHour)).padStart(2,'0')+':'+String(Math.round((currentHour%1)*60)).padStart(2,'0')+' WIB · drag slider above to change time</div>';
-      el.dataset.built='1';
-      /* draw the static snapshot into the embed canvas */
-      var ec=document.getElementById('canvas-'+id);
-      if(ec){
-        var origCanvas=canvas;var origCtx=ctx;
-        canvas=ec;ctx=ec.getContext('2d');
-        drawMap(currentHour);
-        canvas=origCanvas;ctx=origCtx;
-      }
-    }
-  }
+
   if(!chartsBuilt[id]){buildFor(id);chartsBuilt[id]=true;}
 }
 
