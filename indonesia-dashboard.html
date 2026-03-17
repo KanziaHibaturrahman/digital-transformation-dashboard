@@ -4,10 +4,10 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Digital Transformation Agency for Archipelago (Nusantara)</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-:root{--ocean:#060d18;--deep:#0a1628;--surface:#0f1e35;--card:#131f33;--card2:#172236;--border:rgba(100,160,255,0.1);--border2:rgba(100,160,255,0.18);--text:#dde8f5;--muted:#6a85a8;--dim:#3a4e68;--blue:#4f8ef7;--teal:#2ec4a0;--amber:#f59e0b;--red:#e05a5a;--purple:#a78bfa;--green:#4ade80;--mono:'JetBrains Mono',monospace;--sans:'Syne',sans-serif;}
+:root{--ocean:#060d18;--deep:#0a1628;--surface:#0f1e35;--card:#131f33;--card2:#172236;--border:rgba(100,160,255,0.1);--border2:rgba(100,160,255,0.18);--text:#dde8f5;--muted:#6a85a8;--dim:#3a4e68;--blue:#4f8ef7;--teal:#2ec4a0;--amber:#f59e0b;--red:#e05a5a;--purple:#a78bfa;--green:#4ade80;--mono:'JetBrains Mono',monospace;--sans:'Plus Jakarta Sans',sans-serif;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:var(--sans);background:var(--ocean);color:var(--text);min-height:100vh;line-height:1.6;}
@@ -47,7 +47,7 @@ header{padding:36px 0 24px;border-bottom:1px solid var(--border);margin-bottom:2
 .map-tab.active-elec{background:var(--amber);border-color:var(--amber);color:#1a0f00;font-weight:500;}
 .map-tab.active-conn{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:500;}
 .map-canvas-wrap{position:relative;width:100%;border-radius:8px;overflow:hidden;margin-bottom:14px;background:#060f1e;}
-#archipelago{display:block;width:100%;height:auto;}
+#archipelago{display:block;width:100%;aspect-ratio:900/370;}
 .slider-section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:14px;}
 .slider-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
 .time-big{font-family:var(--mono);font-size:26px;font-weight:500;letter-spacing:3px;transition:color .3s;}
@@ -304,7 +304,7 @@ var mapMode='electricity';
 var currentHour=7.0;
 var chartsBuilt={};
 Chart.defaults.color='#6a85a8';
-Chart.defaults.font.family="'Syne',sans-serif";
+Chart.defaults.font.family="'Plus Jakarta Sans',sans-serif";
 Chart.defaults.font.size=11;
 var GRID={color:'rgba(100,160,255,0.06)',borderColor:'rgba(100,160,255,0.08)'};
 var TICKS={color:'#6a85a8'};
