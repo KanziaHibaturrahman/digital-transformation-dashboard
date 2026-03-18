@@ -4,180 +4,245 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Digital Transformation Agency for Archipelago (Nusantara)</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-:root{--ocean:#060d18;--deep:#0a1628;--surface:#0f1e35;--card:#131f33;--card2:#172236;--border:rgba(100,160,255,0.1);--border2:rgba(100,160,255,0.18);--text:#dde8f5;--muted:#6a85a8;--dim:#3a4e68;--blue:#4f8ef7;--teal:#2ec4a0;--amber:#f59e0b;--red:#e05a5a;--purple:#a78bfa;--green:#4ade80;--mono:'JetBrains Mono',monospace;--sans:'Plus Jakarta Sans',sans-serif;}
+:root{
+  --bg:       #f7f6f2;
+  --surface:  #eeeae2;
+  --card:     #ffffff;
+  --card2:    #f2f0ea;
+  --border:   #d4d0c4;
+  --border2:  #bbb8aa;
+  --text:     #1a1a18;
+  --muted:    #6a6a58;
+  --dim:      #aaa898;
+  --blue:     #1a5fa8;
+  --teal:     #1a7a5a;
+  --amber:    #8a5808;
+  --red:      #c03820;
+  --purple:   #5a3a98;
+  --green:    #285a18;
+  --gold:     #c8b86a;
+  --header-bg:#1a1a18;
+  --ocean-bg: #060f1e;
+  --display:  'Playfair Display',serif;
+  --sans:     'Public Sans',sans-serif;
+  --mono:     'JetBrains Mono',monospace;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:var(--sans);background:var(--ocean);color:var(--text);min-height:100vh;line-height:1.6;}
-.shell{max-width:1120px;margin:0 auto;padding:0 24px 80px;}
-header{padding:36px 0 24px;border-bottom:1px solid var(--border);margin-bottom:24px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:14px;}
-.hdr-eyebrow{font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;}
-.hdr-title{font-size:21px;font-weight:700;letter-spacing:-0.4px;line-height:1.2;}
-.hdr-title span{color:var(--amber);}
-.hdr-sub{font-size:12px;color:var(--muted);margin-top:4px;font-family:var(--mono);}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;font-size:15px;}
+.shell{max-width:1120px;margin:0 auto;padding:0 28px 80px;}
+
+/* ── HEADER ── */
+header{background:var(--header-bg);padding:28px 28px 24px;margin:-0px -28px 28px;border-bottom:3px solid var(--gold);}
+.hdr-eyebrow{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;}
+.hdr-title{font-family:var(--display);font-size:26px;font-weight:700;letter-spacing:-0.3px;line-height:1.2;color:#f7f6f2;}
+.hdr-title span{color:var(--gold);}
+.hdr-sub{font-size:13px;color:#9a9a88;margin-top:5px;font-family:var(--mono);}
 .hdr-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.badge{font-family:var(--mono);font-size:10px;padding:3px 10px;border-radius:20px;white-space:nowrap;}
-.badge-red{background:rgba(224,90,90,0.1);color:#f87171;border:1px solid rgba(224,90,90,0.2);}
-.badge-amber{background:rgba(245,158,11,0.1);color:#fbbf24;border:1px solid rgba(245,158,11,0.2);}
-.badge-blue{background:rgba(79,142,247,0.1);color:#7ab0fa;border:1px solid rgba(79,142,247,0.2);}
-.back-link{font-size:11px;color:var(--muted);text-decoration:none;border:1px solid var(--border2);padding:4px 10px;border-radius:20px;font-family:var(--mono);transition:all .15s;}
-.back-link:hover{color:var(--text);border-color:var(--amber);}
-.tabs{display:flex;gap:2px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:24px;overflow-x:auto;}
-.tab-btn{flex:1;min-width:110px;background:transparent;border:none;color:var(--muted);font-family:var(--sans);font-size:12px;font-weight:500;padding:8px 14px;border-radius:7px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.badge{font-family:var(--mono);font-size:11px;padding:4px 11px;border-radius:4px;white-space:nowrap;}
+.badge-red{background:#fff1ee;color:#c03820;border:1px solid #e8c0b8;}
+.badge-amber{background:#fef8e8;color:#8a5808;border:1px solid #e8d898;}
+.badge-blue{background:#e8f0fa;color:#1a5fa8;border:1px solid #b8d0e8;}
+.back-link{font-size:12px;color:#9a9a88;text-decoration:none;border:1px solid rgba(255,255,255,0.2);padding:5px 12px;border-radius:4px;font-family:var(--mono);transition:all .15s;}
+.back-link:hover{color:#f7f6f2;border-color:var(--gold);}
+
+/* ── ID LINK ── */
+.id-link{font-size:12px;font-weight:600;color:#e87a6a;text-decoration:none;border:1px solid rgba(232,122,106,0.35);background:rgba(232,122,106,0.1);padding:5px 12px;border-radius:4px;transition:all .15s;display:inline-flex;align-items:center;gap:5px;}
+.id-link:hover{background:rgba(232,122,106,0.18);}
+.id-banner{background:#fff8f6;border:1px solid #e8c0b8;border-radius:8px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.id-banner-text{font-size:13px;color:var(--muted);}
+.id-banner-text strong{color:var(--text);font-weight:600;}
+.id-banner-btn{font-size:12px;font-weight:600;color:#c03820;text-decoration:none;border:1px solid rgba(192,56,32,0.3);background:rgba(192,56,32,0.07);padding:6px 14px;border-radius:4px;white-space:nowrap;transition:all .15s;}
+.id-banner-btn:hover{background:rgba(192,56,32,0.13);}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:0;background:var(--surface);border-bottom:2px solid var(--border);padding:0;margin-bottom:28px;overflow-x:auto;}
+.tab-btn{flex:1;min-width:120px;background:transparent;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;color:var(--muted);font-family:var(--sans);font-size:14px;font-weight:500;padding:12px 18px;cursor:pointer;transition:all .15s;white-space:nowrap;}
 .tab-btn:hover{color:var(--text);}
-.tab-btn.active{background:var(--card);color:var(--text);border:1px solid var(--border2);}
+.tab-btn.active{color:var(--text);font-weight:700;border-bottom-color:var(--text);}
+
+/* ── PANELS ── */
 .panel{display:none;}
 .panel.active{display:block;animation:fadeUp .2s ease;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:18px;}
-.mc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;transition:border-color .15s;}
+
+/* ── METRIC CARDS ── */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px;}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px 18px;transition:border-color .15s;}
 .mc:hover{border-color:var(--border2);}
-.mc .lbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:7px;}
-.mc .val{font-size:24px;font-weight:700;letter-spacing:-0.5px;line-height:1;}
-.mc .sub{font-size:10px;color:var(--muted);margin-top:5px;font-family:var(--mono);}
+.mc .lbl{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;}
+.mc .val{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:-0.5px;line-height:1;}
+.mc .sub{font-size:12px;color:var(--muted);margin-top:6px;}
 .c-blue{color:var(--blue);}.c-teal{color:var(--teal);}.c-amber{color:var(--amber);}.c-red{color:var(--red);}.c-green{color:var(--green);}.c-purple{color:var(--purple);}
-.map-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:16px;}
-.map-head{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
-.map-title{font-size:13px;font-weight:600;color:var(--text);}
-.map-src{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:3px;}
+
+/* ── MAP CARD ── */
+.map-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
+.map-head{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.map-title{font-size:15px;font-weight:600;color:var(--text);}
+.map-src{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:3px;}
 .map-tabs{display:flex;gap:6px;}
-.map-tab{font-size:11px;font-family:var(--mono);padding:4px 12px;border-radius:20px;border:1px solid var(--border2);color:var(--muted);cursor:pointer;transition:all .15s;background:transparent;}
-.map-tab.active-elec{background:var(--amber);border-color:var(--amber);color:#1a0f00;font-weight:500;}
-.map-tab.active-conn{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:500;}
-.map-canvas-wrap{position:relative;width:100%;border-radius:8px;overflow:hidden;margin-bottom:14px;background:#060f1e;}
+.map-tab{font-size:12px;font-family:var(--mono);padding:5px 14px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);cursor:pointer;transition:all .15s;background:transparent;}
+.map-tab.active-elec{background:var(--amber);border-color:var(--amber);color:#fff;font-weight:600;}
+.map-tab.active-conn{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600;}
+.map-canvas-wrap{position:relative;width:100%;border-radius:6px;overflow:hidden;margin-bottom:16px;background:var(--ocean-bg);}
 #archipelago{display:block;width:100%;aspect-ratio:900/370;}
-.slider-section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:14px;}
-.slider-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
-.time-big{font-family:var(--mono);font-size:26px;font-weight:500;letter-spacing:3px;transition:color .3s;}
-.time-desc{font-size:10px;color:var(--muted);margin-top:2px;font-family:var(--mono);}
-.lbl2{font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
-.val2{font-family:var(--mono);font-size:14px;font-weight:500;margin-top:2px;transition:color .3s;}
-#hour-slider{width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;background:rgba(255,255,255,0.07);}
-#hour-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--ocean);cursor:pointer;background:var(--amber);}
-#hour-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;border:2px solid var(--ocean);cursor:pointer;background:var(--amber);}
-.tick-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:4px;}
-.summary-panel{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:16px;transition:border-color .3s;}
-.sum-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px;}
-.sum-label{font-size:11px;font-weight:600;color:var(--text);}
-.sum-time{font-family:var(--mono);font-size:12px;color:var(--amber);font-weight:500;}
+
+/* ── SLIDER ── */
+.slider-section{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin-bottom:16px;}
+.slider-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+.time-big{font-family:var(--mono);font-size:30px;font-weight:500;letter-spacing:3px;transition:color .3s;color:var(--amber);}
+.time-desc{font-size:12px;color:var(--muted);margin-top:3px;font-family:var(--mono);}
+.lbl2{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.val2{font-family:var(--display);font-size:18px;font-weight:700;margin-top:3px;transition:color .3s;color:var(--amber);}
+#hour-slider{width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;background:var(--border);}
+#hour-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;border:2px solid #fff;cursor:pointer;background:var(--amber);box-shadow:0 1px 4px rgba(0,0,0,0.2);}
+#hour-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;border:2px solid #fff;cursor:pointer;background:var(--amber);}
+.tick-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:5px;}
+
+/* ── SUMMARY PANEL ── */
+.summary-panel{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:18px;transition:border-color .3s;}
+.sum-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:6px;}
+.sum-label{font-size:13px;font-weight:600;color:var(--text);}
+.sum-time{font-family:var(--mono);font-size:13px;color:var(--amber);font-weight:500;}
 .sum-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-.sum-cell{background:var(--card);border-radius:8px;padding:10px 12px;}
-.s-lbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:5px;}
-.s-val{font-size:15px;font-weight:700;letter-spacing:-0.3px;transition:color .3s;}
-.s-sub{font-size:9px;color:var(--muted);margin-top:3px;font-family:var(--mono);}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
-.chart-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
-.cc-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px;}
-.cc-src{font-family:var(--mono);font-size:9px;color:var(--muted);margin-bottom:12px;display:block;}
+.sum-cell{background:var(--surface);border-radius:6px;padding:12px 14px;}
+.s-lbl{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;}
+.s-val{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-0.3px;transition:color .3s;}
+.s-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+
+/* ── TWO COL ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.cc-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.cc-src{font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:14px;display:block;}
 .chart-wrap{position:relative;width:100%;}
-.bar-row{margin-bottom:8px;}
-.bar-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:3px;font-family:var(--mono);}
-.bar-track{height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+
+/* ── BARS ── */
+.bar-row{margin-bottom:10px;}
+.bar-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:4px;}
+.bar-track{height:6px;background:var(--surface);border-radius:3px;overflow:hidden;}
 .bar-fill{height:100%;border-radius:3px;}
-.prov-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.prov-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);}
 .prov-row:last-child{border:none;}
-.prov-name{font-size:10px;color:var(--muted);}
-.prov-bar-wrap{flex:1;margin:0 10px;}
-.prov-val{font-family:var(--mono);font-size:10px;font-weight:500;min-width:38px;text-align:right;}
-.full-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:16px;}
-.full-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
-.load-bars{display:flex;gap:2px;align-items:flex-end;height:50px;margin-bottom:5px;}
+.prov-name{font-size:13px;color:var(--muted);}
+.prov-bar-wrap{flex:1;margin:0 12px;}
+.prov-val{font-family:var(--mono);font-size:12px;font-weight:600;min-width:40px;text-align:right;}
+
+/* ── FULL CARD ── */
+.full-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:18px;}
+.full-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+.load-bars{display:flex;gap:2px;align-items:flex-end;height:55px;margin-bottom:6px;}
 .lb{flex:1;border-radius:2px 2px 0 0;min-height:2px;}
-.lb-ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;color:var(--muted);}
-.section-divider{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin:20px 0 12px;display:flex;align-items:center;gap:10px;}
+.lb-ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--muted);}
+
+/* ── DIVIDERS ── */
+.section-divider{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin:24px 0 14px;display:flex;align-items:center;gap:10px;}
 .section-divider::after{content:'';flex:1;height:1px;background:var(--border);}
-.truth-box{background:var(--surface);border:1px solid rgba(245,158,11,0.15);border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:12px;color:var(--muted);line-height:1.8;}
+
+/* ── TRUTH BOX ── */
+.truth-box{background:#fefcf6;border:1px solid #e8d898;border-left:4px solid var(--amber);border-radius:0 8px 8px 0;padding:16px 20px;margin-bottom:18px;font-size:14px;color:var(--muted);line-height:1.8;}
 .truth-box strong{color:var(--amber);}
-.truth-box em{color:var(--text);font-style:normal;}
+.truth-box em{color:var(--text);font-style:normal;font-weight:500;}
+
+/* ── CHALLENGE CARDS ── */
 .challenge-list{display:flex;flex-direction:column;gap:10px;}
-.chal-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .15s;}
+.chal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .15s;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
 .chal-card:hover{border-color:var(--border2);}
-.chal-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none;}
-.chal-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.chal-title{font-size:13px;font-weight:600;flex:1;}
-.chal-toggle{font-family:var(--mono);font-size:16px;color:var(--muted);transition:transform .2s;line-height:1;}
+.chal-header{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;user-select:none;}
+.chal-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.chal-title{font-size:14px;font-weight:600;flex:1;color:var(--text);}
+.chal-toggle{font-family:var(--mono);font-size:18px;color:var(--muted);transition:transform .2s;line-height:1;}
 .chal-card.open .chal-toggle{transform:rotate(45deg);}
-.chal-body{display:none;padding:0 18px 16px 38px;border-top:1px solid var(--border);}
+.chal-body{display:none;padding:0 20px 18px 44px;border-top:1px solid var(--border);}
 .chal-card.open .chal-body{display:block;}
-.chal-text{font-size:12px;color:var(--muted);line-height:1.7;margin-top:12px;}
-.chal-text strong{color:var(--text);font-weight:500;}
-.chal-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0;}
-.chal-stat{background:var(--surface);border-radius:8px;padding:10px 12px;}
-.cs-lbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px;}
-.cs-val{font-size:16px;font-weight:700;letter-spacing:-0.3px;}
-.chal-source{font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:10px;padding-top:8px;border-top:1px solid var(--border);line-height:1.6;}
-footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-family:var(--mono);font-size:9px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-/* clickable sources */
-.cc-src a,.map-src a,.chal-source a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(79,142,247,0.25);transition:border-color .15s;}
-.cc-src a:hover,.map-src a:hover,.chal-source a:hover{border-bottom-color:var(--blue);}
-/* tab intro */
-.tab-intro{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:18px 20px;margin-bottom:20px;}
-.tab-intro-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
-.tab-intro-title{font-size:14px;font-weight:600;margin-bottom:6px;}
-.tab-intro-text{font-size:12px;color:var(--muted);line-height:1.75;}
-.tab-intro-text strong{color:var(--text);font-weight:500;}
-/* map slot — receives the shared map block when tab changes */
-.map-slot-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin:20px 0 12px;display:flex;align-items:center;gap:10px;}
+.chal-text{font-size:13px;color:var(--muted);line-height:1.8;margin-top:14px;}
+.chal-text strong{color:var(--text);font-weight:600;}
+.chal-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0;}
+.chal-stat{background:var(--surface);border-radius:6px;padding:12px 14px;}
+.cs-lbl{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:5px;}
+.cs-val{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-0.3px;}
+.chal-source{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:12px;padding-top:10px;border-top:1px solid var(--border);line-height:1.7;}
+
+/* ── FOOTER ── */
+footer{margin-top:52px;padding-top:20px;border-top:1px solid var(--border);font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+/* ── CLICKABLE SOURCES ── */
+.cc-src a,.map-src a,.chal-source a,.pol-src a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(26,95,168,0.3);transition:border-color .15s;}
+.cc-src a:hover,.map-src a:hover,.chal-source a:hover,.pol-src a:hover{border-bottom-color:var(--blue);}
+
+/* ── TAB INTRO ── */
+.tab-intro{display:flex;gap:18px;align-items:flex-start;background:#fefcf6;border:1px solid #e8d898;border-radius:10px;padding:20px 22px;margin-bottom:22px;}
+.tab-intro-icon{width:46px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.tab-intro-title{font-family:var(--display);font-size:17px;font-weight:700;margin-bottom:7px;color:var(--text);}
+.tab-intro-text{font-size:13px;color:var(--muted);line-height:1.8;}
+.tab-intro-text strong{color:var(--text);font-weight:600;}
+
+/* ── MAP SLOT ── */
+.map-slot-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin:24px 0 14px;display:flex;align-items:center;gap:10px;}
 .map-slot-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
 /* ── PLAY BUTTON ── */
-.play-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.play-btn{width:34px;height:34px;border-radius:50%;background:var(--amber);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .1s,background .2s;}
-.play-btn:hover{background:#d97706;}
+.play-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.play-btn{width:36px;height:36px;border-radius:50%;background:var(--amber);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .1s,background .2s;box-shadow:0 1px 4px rgba(0,0,0,0.15);}
+.play-btn:hover{background:#7a4a06;}
 .play-btn:active{transform:scale(.94);}
-.play-btn svg{fill:#111;width:12px;height:12px;}
+.play-btn svg{fill:#fff;width:12px;height:12px;}
 .speed-btns{display:flex;gap:4px;}
-.spd-btn{font-size:10px;font-family:var(--mono);padding:4px 9px;border-radius:6px;border:1px solid var(--border2);color:var(--muted);cursor:pointer;background:transparent;transition:all .15s;}
-.spd-btn:hover{color:var(--text);}
-.spd-btn.active{background:rgba(79,142,247,0.15);color:var(--blue);border-color:rgba(79,142,247,0.3);}
-.live-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-family:var(--mono);color:var(--amber);margin-left:8px;opacity:0;transition:opacity .3s;}
+.spd-btn{font-size:11px;font-family:var(--mono);padding:5px 10px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);cursor:pointer;background:transparent;transition:all .15s;}
+.spd-btn:hover{color:var(--text);border-color:var(--border2);}
+.spd-btn.active{background:#e8f0fa;color:var(--blue);border-color:var(--blue);}
+.live-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:var(--mono);color:var(--amber);margin-left:8px;opacity:0;transition:opacity .3s;}
 .live-badge.show{opacity:1;}
-.live-dot{width:5px;height:5px;border-radius:50%;background:var(--amber);animation:blink 1s ease-in-out infinite;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:blink 1s ease-in-out infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+
 /* ── POPULATION COUNTER ── */
-.pop-counter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px;}
-.pc{border-radius:10px;padding:14px 16px;border:1px solid;}
-.pc.danger{background:rgba(224,90,90,0.06);border-color:rgba(224,90,90,0.2);}
-.pc.warn{background:rgba(245,158,11,0.05);border-color:rgba(245,158,11,0.18);}
-.pc.ok{background:rgba(74,222,128,0.04);border-color:rgba(74,222,128,0.16);}
-.pc .pc-lbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px;}
-.pc .pc-num{font-size:28px;font-weight:700;letter-spacing:-1px;line-height:1;font-family:var(--mono);transition:color .3s;}
-.pc .pc-sub{font-size:10px;color:var(--muted);margin-top:5px;}
-.pc .pc-delta{font-size:10px;font-family:var(--mono);margin-top:4px;transition:color .3s;}
-.pc-mini{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:8px;overflow:hidden;}
+.pop-counter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px;}
+.pc{border-radius:8px;padding:16px 18px;border:1px solid;}
+.pc.danger{background:#fff1ee;border-color:#e8c0b8;}
+.pc.warn{background:#fefaee;border-color:#e8dfa8;}
+.pc.ok{background:#f0f8ec;border-color:#b8d8a8;}
+.pc .pc-lbl{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:8px;}
+.pc .pc-num{font-family:var(--display);font-size:32px;font-weight:700;letter-spacing:-1px;line-height:1;transition:color .3s;}
+.pc .pc-sub{font-size:12px;color:var(--muted);margin-top:6px;}
+.pc .pc-delta{font-size:11px;font-family:var(--mono);margin-top:5px;transition:color .3s;}
+.pc-mini{height:4px;background:rgba(0,0,0,0.07);border-radius:2px;margin-top:10px;overflow:hidden;}
 .pc-mini-fill{height:100%;border-radius:2px;transition:width .4s;}
-.pop-note{font-size:11px;color:var(--muted);background:rgba(224,90,90,0.05);border:1px solid rgba(224,90,90,0.12);border-radius:8px;padding:10px 14px;line-height:1.7;margin-bottom:16px;font-style:italic;}
-.pop-note strong{color:var(--amber);font-style:normal;font-weight:500;}
+.pop-note{font-size:13px;color:var(--muted);background:#fff8f6;border:1px solid #e8c0b8;border-left:4px solid var(--red);border-radius:0 8px 8px 0;padding:12px 16px;line-height:1.8;margin-bottom:18px;}
+.pop-note strong{color:var(--amber);font-weight:600;}
+
 /* ── POLICY TRACKER ── */
-.policy-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
-.pol{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .15s;}
+.policy-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.pol{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .15s;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
 .pol:hover{border-color:var(--border2);}
-.pol-hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none;}
-.pol-stripe{width:3px;border-radius:2px;align-self:stretch;flex-shrink:0;}
-.pol-name{font-size:12px;font-weight:600;flex:1;}
-.pol-status{font-size:9px;font-family:var(--mono);padding:3px 8px;border-radius:10px;white-space:nowrap;}
-.s-active{background:rgba(74,222,128,0.12);color:#4ade80;border:1px solid rgba(74,222,128,0.2);}
-.s-delayed{background:rgba(245,158,11,0.12);color:var(--amber);border:1px solid rgba(245,158,11,0.2);}
-.s-planned{background:rgba(79,142,247,0.1);color:var(--blue);border:1px solid rgba(79,142,247,0.2);}
-.pol-pct{font-size:12px;font-weight:600;font-family:var(--mono);min-width:34px;text-align:right;}
-.pol-toggle{font-family:var(--mono);font-size:15px;color:var(--muted);transition:transform .2s;line-height:1;margin-left:4px;}
+.pol-hdr{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none;}
+.pol-stripe{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0;}
+.pol-name{font-size:14px;font-weight:600;flex:1;color:var(--text);}
+.pol-status{font-size:10px;font-family:var(--mono);padding:4px 10px;border-radius:4px;white-space:nowrap;font-weight:600;}
+.s-active{background:#e8f4e0;color:#2a6a18;border:1px solid #b8d8a8;}
+.s-delayed{background:#fef4e0;color:#7a5808;border:1px solid #e8d898;}
+.s-planned{background:#e8f0fa;color:#1a5fa8;border:1px solid #b8d0e8;}
+.pol-pct{font-family:var(--display);font-size:15px;font-weight:700;min-width:36px;text-align:right;}
+.pol-toggle{font-family:var(--mono);font-size:18px;color:var(--muted);transition:transform .2s;line-height:1;margin-left:4px;}
 .pol.open .pol-toggle{transform:rotate(45deg);}
-.pol-body{display:none;padding:0 16px 14px 29px;border-top:1px solid var(--border);}
+.pol-body{display:none;padding:0 18px 16px 34px;border-top:1px solid var(--border);}
 .pol.open .pol-body{display:block;}
-.pol-prog{display:flex;align-items:center;gap:10px;margin-top:10px;}
-.pol-track{flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+.pol-prog{display:flex;align-items:center;gap:12px;margin-top:12px;}
+.pol-track{flex:1;height:7px;background:var(--surface);border-radius:3px;overflow:hidden;}
 .pol-fill{height:100%;border-radius:3px;}
-.pol-plbl{font-family:var(--mono);font-size:10px;color:var(--muted);min-width:30px;text-align:right;}
-.pol-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px;}
-.pm{background:var(--surface);border-radius:7px;padding:8px 10px;}
-.pm .pm-l{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:3px;}
-.pm .pm-v{font-size:13px;font-weight:700;letter-spacing:-0.3px;}
-.pol-desc{font-size:11px;color:var(--muted);line-height:1.7;margin-top:10px;}
-.pol-src{font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);line-height:1.6;}
-.pol-src a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(79,142,247,0.2);}
+.pol-plbl{font-family:var(--mono);font-size:11px;color:var(--muted);min-width:32px;text-align:right;}
+.pol-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px;}
+.pm{background:var(--surface);border-radius:6px;padding:10px 12px;}
+.pm .pm-l{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px;}
+.pm .pm-v{font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:-0.3px;}
+.pol-desc{font-size:13px;color:var(--muted);line-height:1.8;margin-top:12px;}
+.pol-src{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);line-height:1.7;}
+
 @media(max-width:700px){.two-col{grid-template-columns:1fr;}.sum-grid{grid-template-columns:1fr 1fr;}header{flex-direction:column;align-items:flex-start;}}
-@media(max-width:480px){.sum-grid{grid-template-columns:1fr;}.metrics{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.sum-grid{grid-template-columns:1fr;}.metrics{grid-template-columns:1fr 1fr;}.pop-counter{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -445,12 +510,12 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-
 var mapMode='electricity';
 var currentHour=7.0;
 var chartsBuilt={};
-Chart.defaults.color='#6a85a8';
-Chart.defaults.font.family="'Plus Jakarta Sans',sans-serif";
-Chart.defaults.font.size=11;
-var GRID={color:'rgba(100,160,255,0.06)',borderColor:'rgba(100,160,255,0.08)'};
-var TICKS={color:'#6a85a8'};
-var TICKSM={color:'#6a85a8',font:{size:10}};
+Chart.defaults.color='#6a6a58';
+Chart.defaults.font.family="'Public Sans',sans-serif";
+Chart.defaults.font.size=12;
+var GRID={color:'rgba(0,0,0,0.05)',borderColor:'rgba(0,0,0,0.08)'};
+var TICKS={color:'#6a6a58'};
+var TICKSM={color:'#6a6a58',font:{size:11}};
 var CHARTS={};
 function mkChart(id,cfg){if(CHARTS[id])CHARTS[id].destroy();var el=document.getElementById(id);if(!el)return;CHARTS[id]=new Chart(el,cfg);}
 
@@ -585,26 +650,26 @@ function drawMap(hour){
 }
 
 var ESTATES=[
-  {h:0,desc:'Night \u2014 Java-Bali stable \xb7 eastern diesel generators running',stat:'~248M with power',col:'#4f8ef7'},
-  {h:5,desc:'Pre-dawn \u2014 eastern generators approaching morning cycle shutdown',stat:'~245M with power',col:'#4f8ef7'},
-  {h:7,desc:'Morning \u2014 Java-Bali grid stable \xb7 diesel generators active in east',stat:'~253M with power',col:'#2ec4a0'},
-  {h:12,desc:'Midday \u2014 peak demand Java \xb7 eastern islands running on generator',stat:'~251M with power',col:'#2ec4a0'},
-  {h:17,desc:'Afternoon \u2014 Papua generators beginning to shut down (~17:00)',stat:'~242M with power',col:'#f59e0b'},
-  {h:18,desc:'Evening \u2014 Maluku generators off \xb7 Java-Bali under peak load',stat:'~238M with power',col:'#f59e0b'},
-  {h:19,desc:'Night \u2014 NTT, Maluku, W.Papua off \xb7 ~6\u201312M people in darkness',stat:'~233M with power',col:'#e05a5a'},
-  {h:21,desc:'Late night \u2014 most eastern diesel off \xb7 Java-Bali stable',stat:'~231M with power',col:'#e05a5a'},
+  {h:0,desc:'Night \u2014 Java-Bali stable \xb7 eastern diesel generators running',stat:'~248M with power',col:'#1a5fa8'},
+  {h:5,desc:'Pre-dawn \u2014 eastern generators approaching morning cycle shutdown',stat:'~245M with power',col:'#1a5fa8'},
+  {h:7,desc:'Morning \u2014 Java-Bali grid stable \xb7 diesel generators active in east',stat:'~253M with power',col:'#1a7a5a'},
+  {h:12,desc:'Midday \u2014 peak demand Java \xb7 eastern islands running on generator',stat:'~251M with power',col:'#1a7a5a'},
+  {h:17,desc:'Afternoon \u2014 Papua generators beginning to shut down (~17:00)',stat:'~242M with power',col:'#8a5808'},
+  {h:18,desc:'Evening \u2014 Maluku generators off \xb7 Java-Bali under peak load',stat:'~238M with power',col:'#8a5808'},
+  {h:19,desc:'Night \u2014 NTT, Maluku, W.Papua off \xb7 ~6\u201312M people in darkness',stat:'~233M with power',col:'#c03820'},
+  {h:21,desc:'Late night \u2014 most eastern diesel off \xb7 Java-Bali stable',stat:'~231M with power',col:'#c03820'},
   {h:23,desc:'Midnight \u2014 Java-Bali grid holds \xb7 eastern islands dark until 05:30',stat:'~230M with power',col:'#6a85a8'},
 ];
 var CSTATES=[
-  {h:0,desc:'Night \u2014 off-peak \xb7 best 4G speeds on Java-Bali',stat:'~28 Mbps Java avg',col:'#4f8ef7'},
-  {h:6,desc:'Early morning \u2014 network load rising as users wake',stat:'~26 Mbps Java avg',col:'#4f8ef7'},
-  {h:7,desc:'Morning peak \u2014 Java-Bali congested \xb7 speeds drop ~25%',stat:'~19 Mbps Java avg',col:'#a78bfa'},
-  {h:9,desc:'Mid-morning \u2014 congestion easing \xb7 Papua coastal 2G-only',stat:'~22 Mbps Java avg',col:'#4f8ef7'},
-  {h:12,desc:'Midday \u2014 stable load \xb7 interior Kalimantan no coverage all day',stat:'~24 Mbps Java avg',col:'#2ec4a0'},
-  {h:18,desc:'Evening \u2014 load rising \xb7 streaming drives network congestion',stat:'~21 Mbps Java avg',col:'#f59e0b'},
-  {h:19,desc:'Evening peak \u2014 Java worst speeds of day \xb7 Papua still 2G',stat:'~18 Mbps Java avg',col:'#e05a5a'},
-  {h:21,desc:'Night peak fading \u2014 network recovering',stat:'~22 Mbps Java avg',col:'#4f8ef7'},
-  {h:23,desc:'Late night \u2014 near off-peak \xb7 best time for large transfers',stat:'~26 Mbps Java avg',col:'#4f8ef7'},
+  {h:0,desc:'Night \u2014 off-peak \xb7 best 4G speeds on Java-Bali',stat:'~28 Mbps Java avg',col:'#1a5fa8'},
+  {h:6,desc:'Early morning \u2014 network load rising as users wake',stat:'~26 Mbps Java avg',col:'#1a5fa8'},
+  {h:7,desc:'Morning peak \u2014 Java-Bali congested \xb7 speeds drop ~25%',stat:'~19 Mbps Java avg',col:'#5a3a98'},
+  {h:9,desc:'Mid-morning \u2014 congestion easing \xb7 Papua coastal 2G-only',stat:'~22 Mbps Java avg',col:'#1a5fa8'},
+  {h:12,desc:'Midday \u2014 stable load \xb7 interior Kalimantan no coverage all day',stat:'~24 Mbps Java avg',col:'#1a7a5a'},
+  {h:18,desc:'Evening \u2014 load rising \xb7 streaming drives network congestion',stat:'~21 Mbps Java avg',col:'#8a5808'},
+  {h:19,desc:'Evening peak \u2014 Java worst speeds of day \xb7 Papua still 2G',stat:'~18 Mbps Java avg',col:'#c03820'},
+  {h:21,desc:'Night peak fading \u2014 network recovering',stat:'~22 Mbps Java avg',col:'#1a5fa8'},
+  {h:23,desc:'Late night \u2014 near off-peak \xb7 best time for large transfers',stat:'~26 Mbps Java avg',col:'#1a5fa8'},
 ];
 
 function getState(hour,arr){var b=arr[0];for(var i=0;i<arr.length;i++){if(hour>=arr[i].h)b=arr[i];}return b;}
@@ -615,10 +680,10 @@ function elecSummary(h){
   var offN=h>=19?Math.min(1,(h-19)/1):0;
   var aff=Math.round((offP*4.2+offM*1.8+offN*1.2)*10)/10;
   return [
-    {lbl:'Java-Bali grid',val:'Stable',sub:'~99.8% uptime',col:'#4ade80'},
-    {lbl:'Eastern affected',val:'~'+aff+'M',sub:'No power now',col:h>=17?'#e05a5a':'#4ade80'},
-    {lbl:'Papua elec. rate',val:'49%',sub:'PLN-connected only',col:'#f59e0b'},
-    {lbl:'Diesel generators',val:h>=20?'Mostly off':'Running',sub:'E. Indonesia off-grid',col:h>=20?'#e05a5a':'#f59e0b'},
+    {lbl:'Java-Bali grid',val:'Stable',sub:'~99.8% uptime',col:'#285a18'},
+    {lbl:'Eastern affected',val:'~'+aff+'M',sub:'No power now',col:h>=17?'#c03820':'#285a18'},
+    {lbl:'Papua elec. rate',val:'49%',sub:'PLN-connected only',col:'#8a5808'},
+    {lbl:'Diesel generators',val:h>=20?'Mostly off':'Running',sub:'E. Indonesia off-grid',col:h>=20?'#c03820':'#8a5808'},
   ];
 }
 function connSummary(h){
@@ -628,10 +693,10 @@ function connSummary(h){
   var spd=Math.round((24.5-cong*6.5)*10)/10;
   var users=Math.round(45+cong*49);
   return [
-    {lbl:'Java-Bali speed',val:spd+' Mbps',sub:'Median download',col:spd>22?'#4ade80':spd>18?'#f59e0b':'#e05a5a'},
-    {lbl:'Active users',val:'~'+users+'M',sub:'Estimated online',col:cong>0.5?'#a78bfa':'#4f8ef7'},
-    {lbl:'Papua signal',val:'2G coastal',sub:'Interior: no coverage',col:'#e05a5a'},
-    {lbl:'Network status',val:cong>0.5?'Congested':'Normal',sub:'Java-Bali towers',col:cong>0.5?'#e05a5a':'#4ade80'},
+    {lbl:'Java-Bali speed',val:spd+' Mbps',sub:'Median download',col:spd>22?'#285a18':spd>18?'#8a5808':'#c03820'},
+    {lbl:'Active users',val:'~'+users+'M',sub:'Estimated online',col:cong>0.5?'#5a3a98':'#1a5fa8'},
+    {lbl:'Papua signal',val:'2G coastal',sub:'Interior: no coverage',col:'#c03820'},
+    {lbl:'Network status',val:cong>0.5?'Congested':'Normal',sub:'Java-Bali towers',col:cong>0.5?'#c03820':'#285a18'},
   ];
 }
 
@@ -706,16 +771,16 @@ function buildFor(tab){
 function buildOverview(){
   mkChart('ageChart',{type:'bar',
     data:{labels:['Gen Z 12-27','Millennial 28-43','Gen X 44-59','Boomer 60-78'],
-      datasets:[{data:[87,79,68,60.5],backgroundColor:['#4f8ef7','#4f8ef7aa','#4f8ef766','#4f8ef744'],borderRadius:5,borderSkipped:false}]},
+      datasets:[{data:[87,79,68,60.5],backgroundColor:['#1a5fa8','#1a5fa8aa','#1a5fa866','#1a5fa844'],borderRadius:5,borderSkipped:false}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+c.raw+'%';}}}},
       scales:{x:{grid:{display:false},ticks:TICKSM},y:{grid:GRID,ticks:{color:'#6a85a8',callback:function(v){return v+'%';}},max:100}}}});
   mkChart('urbanChart',{type:'doughnut',
     data:{labels:['Urban users (82.2%)','Rural users (74%)','Offline urban','Offline rural'],
-      datasets:[{data:[42.2,30.5,9.8,17.5],backgroundColor:['#4f8ef7','#2ec4a0','#4f8ef722','#2ec4a022'],borderWidth:0}]},
+      datasets:[{data:[42.2,30.5,9.8,17.5],backgroundColor:['#1a5fa8','#1a7a5a','#4f8ef722','#2ec4a022'],borderWidth:0}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
       plugins:{legend:{display:true,position:'right',labels:{boxWidth:10,font:{size:9},color:'#6a85a8',padding:8}}}}});
-  var pl=[{name:'Highland Papua',pct:14.1,col:'#e05a5a'},{name:'Central Papua',pct:49.3,col:'#e05a5a'},{name:'South Papua',pct:75.5,col:'#f59e0b'},{name:'E. Nusa Tenggara',pct:87.5,col:'#f59e0b'}];
-  var pr=[{name:'North Maluku',pct:88.2,col:'#f59e0b'},{name:'West Papua',pct:89.1,col:'#f59e0b'},{name:'SW Papua',pct:88.2,col:'#f59e0b'},{name:'Java-Bali (avg.)',pct:99.8,col:'#4ade80'}];
+  var pl=[{name:'Highland Papua',pct:14.1,col:'#c03820'},{name:'Central Papua',pct:49.3,col:'#c03820'},{name:'South Papua',pct:75.5,col:'#8a5808'},{name:'E. Nusa Tenggara',pct:87.5,col:'#8a5808'}];
+  var pr=[{name:'North Maluku',pct:88.2,col:'#8a5808'},{name:'West Papua',pct:89.1,col:'#8a5808'},{name:'SW Papua',pct:88.2,col:'#8a5808'},{name:'Java-Bali (avg.)',pct:99.8,col:'#285a18'}];
   ['prov-bars-left','prov-bars-right'].forEach(function(id,i){
     document.getElementById(id).innerHTML=(i===0?pl:pr).map(function(p){
       return '<div class="prov-row"><div class="prov-name">'+p.name+'</div><div class="prov-bar-wrap"><div style="width:'+p.pct+'%;background:'+p.col+';height:4px;border-radius:2px;"></div></div><div class="prov-val" style="color:'+p.col+'">'+p.pct+'%</div></div>';
@@ -724,23 +789,23 @@ function buildOverview(){
 }
 
 function buildConn(){
-  var spds=[{n:'Java (urban)',v:24.5,c:'#4f8ef7'},{n:'Bali',v:22.1,c:'#4f8ef7aa'},{n:'Sumatra (urban)',v:16.8,c:'#2ec4a0'},{n:'Kalimantan',v:12.4,c:'#2ec4a0aa'},{n:'Sulawesi',v:9.2,c:'#f59e0b'},{n:'NTT / Maluku',v:6.1,c:'#f59e0baa'},{n:'Papua (coastal)',v:3.8,c:'#e05a5a'}];
+  var spds=[{n:'Java (urban)',v:24.5,c:'#1a5fa8'},{n:'Bali',v:22.1,c:'#1a5fa8aa'},{n:'Sumatra (urban)',v:16.8,c:'#1a7a5a'},{n:'Kalimantan',v:12.4,c:'#1a7a5aaa'},{n:'Sulawesi',v:9.2,c:'#8a5808'},{n:'NTT / Maluku',v:6.1,c:'#8a5808aa'},{n:'Papua (coastal)',v:3.8,c:'#c03820'}];
   document.getElementById('speed-bars').innerHTML=spds.map(function(s){
     return '<div class="bar-row"><div class="bar-lbl"><span>'+s.n+'</span><span style="color:'+s.c+'">'+s.v+' Mbps</span></div><div class="bar-track"><div class="bar-fill" style="width:'+(s.v/30*100).toFixed(1)+'%;background:'+s.c+'"></div></div></div>';
   }).join('');
   var loads=[20,15,12,10,10,18,45,75,72,60,52,55,58,60,62,65,70,85,100,95,80,60,38,25];
-  var lc=loads.map(function(v,i){if(i>=7&&i<=9)return '#a78bfa';if(i>=18&&i<=21)return '#e05a5a';if(v>60)return '#f59e0b';return '#4f8ef7';});
+  var lc=loads.map(function(v,i){if(i>=7&&i<=9)return '#5a3a98';if(i>=18&&i<=21)return '#c03820';if(v>60)return '#8a5808';return '#1a5fa8';});
   document.getElementById('load-bars').innerHTML=loads.map(function(v,i){
     return '<div class="lb" style="height:'+v+'%;background:'+lc[i]+'99;"></div>';
   }).join('');
   mkChart('demoChart',{type:'bar',
     data:{labels:['Urban','Rural','Male','Female','Java','Sumatra','Kalimantan','Papua'],
-      datasets:[{data:[82.2,74,87.6,85.5,91,78,68,52],backgroundColor:['#4f8ef7','#2ec4a0','#4f8ef7','#a78bfa','#4f8ef7','#2ec4a0','#f59e0b','#e05a5a'],borderRadius:4,borderSkipped:false}]},
+      datasets:[{data:[82.2,74,87.6,85.5,91,78,68,52],backgroundColor:['#1a5fa8','#1a7a5a','#1a5fa8','#5a3a98','#1a5fa8','#1a7a5a','#8a5808','#c03820'],borderRadius:4,borderSkipped:false}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+c.raw+'%';}}}},
       scales:{x:{grid:{display:false},ticks:{color:'#6a85a8',font:{size:9},maxRotation:35}},y:{grid:GRID,ticks:{color:'#6a85a8',callback:function(v){return v+'%';}},max:100}}}});
   mkChart('coverageChart',{type:'doughnut',
     data:{labels:['4G/5G (Java-Bali-Sumatra)','3G (Kalimantan-Sulawesi)','2G (Maluku-NTT)','No coverage (Papua interior)'],
-      datasets:[{data:[52,24,14,10],backgroundColor:['#4f8ef7','#2ec4a0','#f59e0b','#e05a5a'],borderWidth:0}]},
+      datasets:[{data:[52,24,14,10],backgroundColor:['#1a5fa8','#1a7a5a','#8a5808','#c03820'],borderWidth:0}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'60%',
       plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,font:{size:9},color:'#6a85a8',padding:8}}}}});
 }
@@ -748,40 +813,40 @@ function buildConn(){
 function buildElec(){
   var pvl=['Highland\nPapua','Central\nPapua','South\nPapua','E. Nusa\nTenggara','N. Maluku','SW Papua','W. Papua','Papua','Java-Bali'];
   var pvv=[14.1,49.3,75.5,87.5,88.2,88.2,89.1,89.8,99.8];
-  var pvc=pvv.map(function(v){return v<50?'#e05a5a':v<90?'#f59e0b':'#4ade80';});
+  var pvc=pvv.map(function(v){return v<50?'#c03820':v<90?'#8a5808':'#285a18';});
   mkChart('provChart',{type:'bar',
     data:{labels:pvl,datasets:[{data:pvv,backgroundColor:pvc,borderRadius:5,borderSkipped:false}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return ' '+c.raw+'%';}}}},
       scales:{x:{grid:{display:false},ticks:{color:'#6a85a8',font:{size:10}}},y:{grid:GRID,ticks:{color:'#6a85a8',callback:function(v){return v+'%';}},max:105}}}});
   mkChart('complaintChart',{type:'doughnut',
     data:{labels:['Power outages (42.9%)','Voltage issues (21.3%)','Billing errors (18.4%)','Meter problems (10.1%)','Other (7.3%)'],
-      datasets:[{data:[42.9,21.3,18.4,10.1,7.3],backgroundColor:['#e05a5a','#f59e0b','#a78bfa','#4f8ef7','#6a85a8'],borderWidth:0}]},
+      datasets:[{data:[42.9,21.3,18.4,10.1,7.3],backgroundColor:['#c03820','#8a5808','#5a3a98','#1a5fa8','#6a85a8'],borderWidth:0}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'58%',
       plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,font:{size:9},color:'#6a85a8',padding:6}}}}});
-  var db=[{r:'Highland Papua',h:4,c:'#e05a5a'},{r:'Central Papua',h:6,c:'#e05a5a'},{r:'Remote Maluku',h:8,c:'#f59e0b'},{r:'NTT interior',h:8,c:'#f59e0b'},{r:'W. Papua remote',h:10,c:'#f59e0b'},{r:'Sulawesi interior',h:12,c:'#f59e0baa'},{r:'Kalimantan remote',h:14,c:'#f59e0b88'},{r:'Java-Bali grid',h:24,c:'#4ade80'}];
+  var db=[{r:'Highland Papua',h:4,c:'#c03820'},{r:'Central Papua',h:6,c:'#c03820'},{r:'Remote Maluku',h:8,c:'#8a5808'},{r:'NTT interior',h:8,c:'#8a5808'},{r:'W. Papua remote',h:10,c:'#8a5808'},{r:'Sulawesi interior',h:12,c:'#8a5808aa'},{r:'Kalimantan remote',h:14,c:'#8a580888'},{r:'Java-Bali grid',h:24,c:'#285a18'}];
   document.getElementById('diesel-bars').innerHTML=db.map(function(d){
     return '<div class="bar-row"><div class="bar-lbl"><span>'+d.r+'</span><span style="color:'+d.c+'">'+d.h+'h/day</span></div><div class="bar-track"><div class="bar-fill" style="width:'+(d.h/24*100).toFixed(0)+'%;background:'+d.c+'"></div></div></div>';
   }).join('');
 }
 
 var CHALS=[
-  {color:'#e05a5a',title:'Geographic fragmentation — 17,000+ islands',
+  {color:'#c03820',title:'Geographic fragmentation — 17,000+ islands',
    stats:[{l:'Inhabited islands',v:'~6,000'},{l:'Cable cost multiplier',v:'3-5x'},{l:'Archipelago span',v:'5,100 km'},{l:'Ocean territory',v:'3.3M km²'}],
    body:'<strong>The fundamental challenge</strong> is Indonesia\'s geography. Submarine fiber cables between islands cost 3–5× more than mainland infrastructure. Many islands in Maluku, NTT, and Papua can only be reached by satellite or microwave links with limited bandwidth. The 2021 Palapa Ring project connected 57 cities with 12,000+ km of fiber, but last-mile connectivity from city nodes to rural villages remains unresolved on most outer islands.',
    src:'<a href="https://www.kominfo.go.id/content/detail/24441/siaran-pers-no-181hmkominfo102021" target="_blank">Palapa Ring Project — Kemenkominfo 2021</a> · <a href="https://www.worldbank.org/en/country/indonesia" target="_blank">World Bank Infrastructure Indonesia Review 2023</a> · <a href="https://www.gsma.com/r/mobileeconomy/southeast-asia/" target="_blank">GSMA Mobile Economy Southeast Asia 2024</a>'},
-  {color:'#f59e0b',title:'Diesel dependency in eastern Indonesia',
+  {color:'#8a5808',title:'Diesel dependency in eastern Indonesia',
    stats:[{l:'Off-grid communities',v:'~3,300+'},{l:'Generator hrs/day',v:'4–12h'},{l:'Diesel cost premium',v:'3–6× grid'},{l:'People affected',v:'~6–12M'}],
    body:'<strong>Diesel generators</strong> power the majority of off-grid communities in Papua, Maluku, and remote Kalimantan. They are expensive (fuel logistics to remote areas adds 300–600% to per-kWh cost), unreliable, and limited to 4–12 hours per day in the most remote areas. This means internet access, refrigeration, health facilities, and economic activity all shut down when the generator stops — typically after 19:00–21:00. PLN\'s PLTS solar micro-grid program aims to replace 2,130 diesel units, but progress is slow due to terrain and budget.',
    src:'<a href="https://www.pln.co.id" target="_blank">PLN Statistics 2023</a> · <a href="https://www.esdm.go.id" target="_blank">ESDM Ministry off-grid electrification report 2024</a> · <a href="https://iesr.or.id" target="_blank">Institute for Essential Services Reform (IESR) Indonesia 2024</a>'},
-  {color:'#4f8ef7',title:'Urban-rural digital divide — 23pp internet gap',
+  {color:'#1a5fa8',title:'Urban-rural digital divide — 23pp internet gap',
    stats:[{l:'Urban penetration',v:'82.2%'},{l:'Rural penetration',v:'74%'},{l:'Rural share of users',v:'30.5%'},{l:'Rural share of pop.',v:'~41%'}],
    body:'<strong>Rural Indonesia</strong> accounts for ~41% of the population but only 30.5% of internet users. Beyond the penetration gap, rural users experience significantly slower speeds (3G or 2G in many areas), higher data costs relative to income, and lower digital literacy. The BPS 2024 survey shows rural access improved from 56% in 2019 to 74% in 2024 — significant progress, but the urban-rural gap has barely narrowed because urban areas also grew simultaneously.',
    src:'<a href="https://www.bps.go.id" target="_blank">BPS National Socioeconomic Survey (SUSENAS) 2024</a> · <a href="https://apjii.or.id/survei" target="_blank">APJII Internet Survey 2024</a> · <a href="https://datareportal.com/reports/digital-2024-indonesia" target="_blank">DataReportal Indonesia Digital 2024</a>'},
-  {color:'#a78bfa',title:'The electrification definition gap',
+  {color:'#5a3a98',title:'The electrification definition gap',
    stats:[{l:'Gov. rate',v:'99.78%'},{l:'PLN-grid only',v:'~95%'},{l:'Papua PLN only',v:'49%'},{l:'Definition: 1 lamp = electrified',v:'Thousands'}],
    body:'<strong>Indonesia\'s headline 99.78%</strong> counts a village as "electrified" if at least one household or facility has any electricity source — including a single streetlight on a diesel generator. When restricted to PLN (national grid) connections only, the rate drops to ~95% nationally and just 49% in Papua. The Ministry of Energy has begun distinguishing between "electrification ratio" (broad) and "PLN electrification ratio" (grid-connected only) in official reporting since 2023.',
    src:'<a href="https://www.esdm.go.id" target="_blank">ESDM Directorate General of Electricity 2024</a> · <a href="https://www.pln.co.id" target="_blank">PLN Annual Statistics 2023</a> · <a href="https://iesr.or.id" target="_blank">IESR Indonesia 2024</a>'},
-  {color:'#2ec4a0',title:'Network reliability — outages and congestion',
+  {color:'#1a7a5a',title:'Network reliability — outages and congestion',
    stats:[{l:'Outage complaints',v:'42.9%'},{l:'Blackout cost/hr',v:'$1–3M'},{l:'Weather-related outages',v:'>95%'},{l:'2019 Jakarta blackout',v:'30M+ people'}],
    body:'<strong>Even where electricity exists</strong>, reliability is a serious challenge. YLKI 2024 shows 42.9% of electricity complaints are about outages. Over 95% of outages in Java-Bali are caused by wind and heavy rainfall. A single major outage costs $1–3 million per hour in lost economic activity. The August 2019 Jakarta blackout affected 30M+ people for up to 9 hours. For connectivity, evening congestion (19:00–21:00) drops Java-Bali 4G speeds by 25–35% from off-peak baseline.',
    src:'<a href="https://ylki.or.id" target="_blank">YLKI Consumer Complaint Profile 2024</a> · <a href="https://www.pln.co.id" target="_blank">PLN Network Operations Report</a> · <a href="https://www.kominfo.go.id" target="_blank">MCIT Annual Report 2023</a> · <a href="https://www.opensignal.com/reports/2024/06/indonesia/mobile-network-experience" target="_blank">Opensignal Mobile Experience Indonesia 2024</a>'},
@@ -882,17 +947,17 @@ function updatePopCounter(h){
   var slowM=Math.round(45+cong*49);
 
   el.textContent=dark>0?dark+'M':'0M';
-  el.style.color=dark>3?'#e05a5a':dark>0?'#f59e0b':'#4ade80';
+  el.style.color=dark>3?'#c03820':dark>0?'#8a5808':'#285a18';
   document.getElementById('pc-dark-sub').textContent=dark>0?'Affected — eastern islands':'Java-Bali + east stable';
   document.getElementById('pc-dark-delta').textContent=dark>0?'Generator shutdown in progress':'';
-  document.getElementById('pc-dark-delta').style.color='#e05a5a';
+  document.getElementById('pc-dark-delta').style.color='#c03820';
   document.getElementById('pc-dark-bar').style.width=Math.min(darkPct*4,100)+'%';
 
   document.getElementById('pc-slow').textContent=slowM+'M';
-  document.getElementById('pc-slow').style.color=cong>0.5?'#e05a5a':cong>0.1?'#f59e0b':'#6a85a8';
+  document.getElementById('pc-slow').style.color=cong>0.5?'#c03820':cong>0.1?'#8a5808':'#6a85a8';
   document.getElementById('pc-slow-sub').textContent=cong>0.5?'Java-Bali peak congestion':cong>0.1?'Elevated load':'Normal load';
   document.getElementById('pc-slow-delta').textContent=cong>0.5?'\u2212'+(Math.round(cong*6.5*10)/10)+' Mbps vs off-peak':'';
-  document.getElementById('pc-slow-delta').style.color=cong>0.5?'#e05a5a':'#6a85a8';
+  document.getElementById('pc-slow-delta').style.color=cong>0.5?'#c03820':'#6a85a8';
   document.getElementById('pc-slow-bar').style.width=Math.round(slowM/280*100)+'%';
 
   var stable=Math.round(153-(dark*0.5));
@@ -915,23 +980,23 @@ function updatePopCounter(h){
    POLICY TRACKER
 ════════════════════════════════════════ */
 var POLICIES=[
-  {color:'#4f8ef7',name:'Palapa Ring — national fiber backbone',status:'active',pct:87,
+  {color:'#1a5fa8',name:'Palapa Ring — national fiber backbone',status:'active',pct:87,
    meta:[{l:'Budget',v:'Rp 5.8T'},{l:'Cities connected',v:'57 / 65'},{l:'Fiber laid',v:'12,000 km'}],
    desc:'National submarine and terrestrial fiber backbone connecting 57 of 65 target cities. Outer eastern cities still pending. Last-mile delivery from city nodes to rural villages remains unresolved on most outer islands.',
    src:'<a href="https://www.kominfo.go.id" target="_blank">Kemenkominfo 2021–2024</a> · <a href="https://www.bappenas.go.id" target="_blank">Bappenas Digital Roadmap 2024</a>'},
-  {color:'#f59e0b',name:'PLTS — solar micro-grid replacing diesel',status:'delayed',pct:31,
+  {color:'#8a5808',name:'PLTS — solar micro-grid replacing diesel',status:'delayed',pct:31,
    meta:[{l:'Target units',v:'2,130'},{l:'Installed',v:'662'},{l:'People served',v:'~1.8M'}],
    desc:'Aims to replace 2,130 diesel generator units in remote eastern islands with solar-battery micro-grids. Terrain, logistics, and budget constraints have slowed rollout by ~2 years vs original plan. At current pace, completion projected 2028.',
    src:'<a href="https://www.pln.co.id" target="_blank">PLN Annual Report 2023</a> · <a href="https://www.esdm.go.id" target="_blank">ESDM Off-grid Electrification Report 2024</a> · <a href="https://iesr.or.id" target="_blank">IESR Indonesia 2024</a>'},
-  {color:'#2ec4a0',name:'100K Digital Talents program',status:'active',pct:64,
+  {color:'#1a7a5a',name:'100K Digital Talents program',status:'active',pct:64,
    meta:[{l:'Target',v:'100,000'},{l:'Trained',v:'64,200'},{l:'Budget',v:'Rp 3.1T'}],
    desc:'Government program to train 100,000 Indonesians in advanced digital skills including AI/ML, cloud, cybersecurity, and software engineering. On track to meet 2025 target. Managed by Kominfo and Bappenas.',
    src:'<a href="https://www.kominfo.go.id" target="_blank">Kominfo Digital Talent Scholarship 2024</a> · <a href="https://www.bappenas.go.id" target="_blank">Bappenas 2024</a>'},
-  {color:'#a78bfa',name:'USO fund — universal service obligation',status:'delayed',pct:43,
+  {color:'#5a3a98',name:'USO fund — universal service obligation',status:'delayed',pct:43,
    meta:[{l:'Budget',v:'Rp 22T'},{l:'Base stations',v:'4,200'},{l:'Villages covered',v:'~9,800'}],
    desc:'Mandatory fund connecting underserved areas. A 2023 corruption probe halted disbursement of Rp 8T in funds; new oversight framework was introduced in 2024. Rollout has resumed at reduced pace.',
    src:'<a href="https://baktikominfo.id" target="_blank">BAKTI Kominfo 2024</a> · <a href="https://www.kpk.go.id" target="_blank">KPK Corruption Eradication Commission 2023</a>'},
-  {color:'#4ade80',name:'National Digital Literacy program',status:'active',pct:58,
+  {color:'#285a18',name:'National Digital Literacy program',status:'active',pct:58,
    meta:[{l:'Literacy index',v:'52.5 / 100'},{l:'Target index',v:'75 / 100'},{l:'Modules deployed',v:'~3,200'}],
    desc:'Multi-ministry initiative to raise Indonesia\'s Digital Literacy Index from 52.5/100 to the government\'s 75/100 target by 2026. Covers digital skills, digital ethics, digital safety, and digital culture across schools and communities.',
    src:'<a href="https://www.kominfo.go.id" target="_blank">Kominfo Digital Literacy Survey 2023</a> · <a href="https://www.kemdikbud.go.id" target="_blank">Kemdikbud 2024</a>'},
