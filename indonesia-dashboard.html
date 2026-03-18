@@ -121,6 +121,61 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-
 /* map slot — receives the shared map block when tab changes */
 .map-slot-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin:20px 0 12px;display:flex;align-items:center;gap:10px;}
 .map-slot-label::after{content:'';flex:1;height:1px;background:var(--border);}
+/* ── PLAY BUTTON ── */
+.play-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.play-btn{width:34px;height:34px;border-radius:50%;background:var(--amber);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .1s,background .2s;}
+.play-btn:hover{background:#d97706;}
+.play-btn:active{transform:scale(.94);}
+.play-btn svg{fill:#111;width:12px;height:12px;}
+.speed-btns{display:flex;gap:4px;}
+.spd-btn{font-size:10px;font-family:var(--mono);padding:4px 9px;border-radius:6px;border:1px solid var(--border2);color:var(--muted);cursor:pointer;background:transparent;transition:all .15s;}
+.spd-btn:hover{color:var(--text);}
+.spd-btn.active{background:rgba(79,142,247,0.15);color:var(--blue);border-color:rgba(79,142,247,0.3);}
+.live-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-family:var(--mono);color:var(--amber);margin-left:8px;opacity:0;transition:opacity .3s;}
+.live-badge.show{opacity:1;}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--amber);animation:blink 1s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+/* ── POPULATION COUNTER ── */
+.pop-counter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px;}
+.pc{border-radius:10px;padding:14px 16px;border:1px solid;}
+.pc.danger{background:rgba(224,90,90,0.06);border-color:rgba(224,90,90,0.2);}
+.pc.warn{background:rgba(245,158,11,0.05);border-color:rgba(245,158,11,0.18);}
+.pc.ok{background:rgba(74,222,128,0.04);border-color:rgba(74,222,128,0.16);}
+.pc .pc-lbl{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px;}
+.pc .pc-num{font-size:28px;font-weight:700;letter-spacing:-1px;line-height:1;font-family:var(--mono);transition:color .3s;}
+.pc .pc-sub{font-size:10px;color:var(--muted);margin-top:5px;}
+.pc .pc-delta{font-size:10px;font-family:var(--mono);margin-top:4px;transition:color .3s;}
+.pc-mini{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:8px;overflow:hidden;}
+.pc-mini-fill{height:100%;border-radius:2px;transition:width .4s;}
+.pop-note{font-size:11px;color:var(--muted);background:rgba(224,90,90,0.05);border:1px solid rgba(224,90,90,0.12);border-radius:8px;padding:10px 14px;line-height:1.7;margin-bottom:16px;font-style:italic;}
+.pop-note strong{color:var(--amber);font-style:normal;font-weight:500;}
+/* ── POLICY TRACKER ── */
+.policy-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.pol{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .15s;}
+.pol:hover{border-color:var(--border2);}
+.pol-hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none;}
+.pol-stripe{width:3px;border-radius:2px;align-self:stretch;flex-shrink:0;}
+.pol-name{font-size:12px;font-weight:600;flex:1;}
+.pol-status{font-size:9px;font-family:var(--mono);padding:3px 8px;border-radius:10px;white-space:nowrap;}
+.s-active{background:rgba(74,222,128,0.12);color:#4ade80;border:1px solid rgba(74,222,128,0.2);}
+.s-delayed{background:rgba(245,158,11,0.12);color:var(--amber);border:1px solid rgba(245,158,11,0.2);}
+.s-planned{background:rgba(79,142,247,0.1);color:var(--blue);border:1px solid rgba(79,142,247,0.2);}
+.pol-pct{font-size:12px;font-weight:600;font-family:var(--mono);min-width:34px;text-align:right;}
+.pol-toggle{font-family:var(--mono);font-size:15px;color:var(--muted);transition:transform .2s;line-height:1;margin-left:4px;}
+.pol.open .pol-toggle{transform:rotate(45deg);}
+.pol-body{display:none;padding:0 16px 14px 29px;border-top:1px solid var(--border);}
+.pol.open .pol-body{display:block;}
+.pol-prog{display:flex;align-items:center;gap:10px;margin-top:10px;}
+.pol-track{flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+.pol-fill{height:100%;border-radius:3px;}
+.pol-plbl{font-family:var(--mono);font-size:10px;color:var(--muted);min-width:30px;text-align:right;}
+.pol-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px;}
+.pm{background:var(--surface);border-radius:7px;padding:8px 10px;}
+.pm .pm-l{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:3px;}
+.pm .pm-v{font-size:13px;font-weight:700;letter-spacing:-0.3px;}
+.pol-desc{font-size:11px;color:var(--muted);line-height:1.7;margin-top:10px;}
+.pol-src{font-family:var(--mono);font-size:9px;color:var(--dim);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);line-height:1.6;}
+.pol-src a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(79,142,247,0.2);}
 @media(max-width:700px){.two-col{grid-template-columns:1fr;}.sum-grid{grid-template-columns:1fr 1fr;}header{flex-direction:column;align-items:flex-start;}}
 @media(max-width:480px){.sum-grid{grid-template-columns:1fr;}.metrics{grid-template-columns:1fr 1fr;}}
 </style>
@@ -168,7 +223,10 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-
     <div class="slider-section">
       <div class="slider-top">
         <div>
-          <div class="time-big" id="time-display">07:00</div>
+          <div style="display:flex;align-items:center;">
+            <div class="time-big" id="time-display">07:00</div>
+            <div class="live-badge" id="live-badge"><div class="live-dot"></div>playing</div>
+          </div>
           <div class="time-desc" id="time-desc">Morning — Java-Bali grid stable · diesel generators active in east</div>
         </div>
         <div>
@@ -176,7 +234,19 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-
           <div class="val2" id="stat-value">~253M</div>
         </div>
       </div>
-      <input type="range" id="hour-slider" min="0" max="240" value="70" step="1" style="width:100%;margin:8px 0;"/>
+      <div class="play-row">
+        <button class="play-btn" id="play-btn" onclick="togglePlay()" title="Play / Pause">
+          <svg id="play-icon" viewBox="0 0 10 12"><polygon points="1,0 10,6 1,12"/></svg>
+        </button>
+        <div class="speed-btns">
+          <button class="spd-btn" onclick="setSpeed(0.5)">0.5×</button>
+          <button class="spd-btn active" id="spd-1" onclick="setSpeed(1)">1×</button>
+          <button class="spd-btn" onclick="setSpeed(2)">2×</button>
+          <button class="spd-btn" onclick="setSpeed(4)">4×</button>
+        </div>
+        <span style="font-size:10px;color:var(--dim);font-family:var(--mono);">00:00 → 24:00 · 24 sec at 1×</span>
+      </div>
+      <input type="range" id="hour-slider" min="0" max="240" value="70" step="1" style="width:100%;margin:4px 0 8px;"/>
       <div class="tick-row">
         <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
       </div>
@@ -202,6 +272,35 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-
   <div class="truth-box">
     <strong>The two Indonesias:</strong> The headline numbers — <em>99.4% electrification, 79% internet</em> — describe a very different reality depending on which island you live on. Java and Bali enjoy near-universal stable grid power and 4G/5G. Meanwhile <em>Highland Papua sits at 14.1% electrification</em>, interior Kalimantan has no mobile coverage, and millions in eastern islands receive power for only 4–12 hours per day from diesel generators. Drag the slider above to explore this gap across the 24-hour day.
   </div>
+
+  <div class="section-divider">Live population impact</div>
+  <div class="pop-counter" id="pop-counter">
+    <div class="pc danger">
+      <div class="pc-lbl">Without electricity now</div>
+      <div class="pc-num" id="pc-dark" style="color:#e05a5a;">0M</div>
+      <div class="pc-sub" id="pc-dark-sub">Eastern islands</div>
+      <div class="pc-delta" id="pc-dark-delta" style="color:#6a85a8;"></div>
+      <div class="pc-mini"><div class="pc-mini-fill" id="pc-dark-bar" style="background:#e05a5a;width:0%;"></div></div>
+    </div>
+    <div class="pc warn">
+      <div class="pc-lbl">Reduced internet speed</div>
+      <div class="pc-num" id="pc-slow" style="color:#f59e0b;">45M</div>
+      <div class="pc-sub" id="pc-slow-sub">Normal load</div>
+      <div class="pc-delta" id="pc-slow-delta" style="color:#6a85a8;"></div>
+      <div class="pc-mini"><div class="pc-mini-fill" id="pc-slow-bar" style="background:#f59e0b;width:16%;"></div></div>
+    </div>
+    <div class="pc ok">
+      <div class="pc-lbl">On stable grid + 4G</div>
+      <div class="pc-num" id="pc-stable" style="color:#4ade80;">153M</div>
+      <div class="pc-sub">Java · Bali · urban Sumatra</div>
+      <div class="pc-delta" style="color:#4ade80;">Grid operational</div>
+      <div class="pc-mini"><div class="pc-mini-fill" id="pc-stable-bar" style="background:#4ade80;width:55%;"></div></div>
+    </div>
+  </div>
+  <div class="pop-note" id="pop-note">At <strong id="pop-note-time">07:00 WIB</strong> — <strong id="pop-note-text">Java-Bali grid is stable. Eastern Indonesia diesel generators are running. ~248M Indonesians have electricity access right now.</strong></div>
+
+  <div class="section-divider">Government policy tracker</div>
+  <div class="policy-list" id="policy-list"></div>
   <div class="section-divider">Connectivity by generation</div>
   <div class="two-col">
     <div class="chart-card">
@@ -710,10 +809,172 @@ function buildChallenges(){
 
 function toggleChal(i){document.getElementById('ch'+i).classList.toggle('open');}
 
+/* ════════════════════════════════════════
+   PLAY BUTTON
+════════════════════════════════════════ */
+var isPlaying=false;
+var playSpeed=1;
+var playRAF=null;
+var lastTs=null;
+
+function togglePlay(){
+  isPlaying=!isPlaying;
+  var icon=document.getElementById('play-icon');
+  var badge=document.getElementById('live-badge');
+  var btn=document.getElementById('play-btn');
+  if(isPlaying){
+    icon.innerHTML='<rect x="1" y="0" width="3" height="12" rx="1"/><rect x="6" y="0" width="3" height="12" rx="1"/>';
+    badge.classList.add('show');
+    btn.style.background='var(--red)';
+    lastTs=null;
+    requestAnimationFrame(animatePlay);
+  } else {
+    icon.innerHTML='<polygon points="1,0 10,6 1,12"/>';
+    badge.classList.remove('show');
+    btn.style.background='var(--amber)';
+    if(playRAF){cancelAnimationFrame(playRAF);playRAF=null;}
+  }
+}
+
+function setSpeed(s){
+  playSpeed=s;
+  document.querySelectorAll('.spd-btn').forEach(function(b){
+    b.classList.toggle('active',parseFloat(b.textContent)===s);
+  });
+}
+
+function animatePlay(ts){
+  if(!isPlaying) return;
+  if(lastTs===null){lastTs=ts;}
+  var delta=(ts-lastTs)/1000;
+  lastTs=ts;
+  /* 1× = 24 sec full cycle → each real sec = 1 hour = 10 slider units */
+  currentHour+=delta*playSpeed;
+  if(currentHour>=24) currentHour=0;
+  var sliderVal=Math.round(currentHour*10);
+  document.getElementById('hour-slider').value=sliderVal;
+  drawMap(currentHour);
+  updateUI(currentHour);
+  updatePopCounter(currentHour);
+  playRAF=requestAnimationFrame(animatePlay);
+}
+
+/* ════════════════════════════════════════
+   POPULATION COUNTER
+════════════════════════════════════════ */
+function updatePopCounter(h){
+  var el=document.getElementById('pc-dark');
+  if(!el) return;
+  /* electricity calc: same logic as elecSummary */
+  var offP=h>=17?Math.min(1,(h-17)/2):0;
+  if(h<5.5) offP=Math.max(0,(1-(h/1.5)));
+  var offM=h>=18?Math.min(1,(h-18)/1.5):0;
+  if(h<5) offM=Math.max(0,(1-(h/1)));
+  var offN=h>=19?Math.min(1,(h-19)/1):0;
+  if(h<4.5) offN=Math.max(0,(1-(h/0.8)));
+  var dark=Math.round((offP*4.2+offM*1.8+offN*1.2)*10)/10;
+  var darkPct=(dark/280*100).toFixed(1);
+
+  /* connectivity calc */
+  var morn=(h>=7&&h<=9)?(h-7)/2:(h>9?0:0);
+  var eve=(h>=18&&h<=21)?(h-18)/3:(h>21?0:0);
+  var cong=Math.max(morn,eve);
+  var slowM=Math.round(45+cong*49);
+
+  el.textContent=dark>0?dark+'M':'0M';
+  el.style.color=dark>3?'#e05a5a':dark>0?'#f59e0b':'#4ade80';
+  document.getElementById('pc-dark-sub').textContent=dark>0?'Affected — eastern islands':'Java-Bali + east stable';
+  document.getElementById('pc-dark-delta').textContent=dark>0?'Generator shutdown in progress':'';
+  document.getElementById('pc-dark-delta').style.color='#e05a5a';
+  document.getElementById('pc-dark-bar').style.width=Math.min(darkPct*4,100)+'%';
+
+  document.getElementById('pc-slow').textContent=slowM+'M';
+  document.getElementById('pc-slow').style.color=cong>0.5?'#e05a5a':cong>0.1?'#f59e0b':'#6a85a8';
+  document.getElementById('pc-slow-sub').textContent=cong>0.5?'Java-Bali peak congestion':cong>0.1?'Elevated load':'Normal load';
+  document.getElementById('pc-slow-delta').textContent=cong>0.5?'\u2212'+(Math.round(cong*6.5*10)/10)+' Mbps vs off-peak':'';
+  document.getElementById('pc-slow-delta').style.color=cong>0.5?'#e05a5a':'#6a85a8';
+  document.getElementById('pc-slow-bar').style.width=Math.round(slowM/280*100)+'%';
+
+  var stable=Math.round(153-(dark*0.5));
+  document.getElementById('pc-stable').textContent=stable+'M';
+  document.getElementById('pc-stable-bar').style.width=Math.round(stable/280*100)+'%';
+
+  /* note text */
+  var hh=String(Math.floor(h)).padStart(2,'0');
+  var mm=String(Math.round((h%1)*60)).padStart(2,'0');
+  document.getElementById('pop-note-time').textContent=hh+':'+mm+' WIB';
+  var noteText='';
+  if(dark<=0){noteText='Java-Bali grid is stable. Eastern Indonesia diesel generators are running. ~248M Indonesians have electricity access right now.';}
+  else if(dark<2){noteText='Papua generators beginning to shut down. ~'+dark+'M people in remote eastern areas are losing power for the night.';}
+  else if(dark<5){noteText='~'+dark+'M people — more than the population of New Zealand — are now without electricity as eastern diesel generators shut down.';}
+  else{noteText='~'+dark+'M people in Papua, Maluku, and NTT — larger than the population of Singapore — have no electricity until generators restart around 05:30.';}
+  document.getElementById('pop-note-text').textContent=noteText;
+}
+
+/* ════════════════════════════════════════
+   POLICY TRACKER
+════════════════════════════════════════ */
+var POLICIES=[
+  {color:'#4f8ef7',name:'Palapa Ring — national fiber backbone',status:'active',pct:87,
+   meta:[{l:'Budget',v:'Rp 5.8T'},{l:'Cities connected',v:'57 / 65'},{l:'Fiber laid',v:'12,000 km'}],
+   desc:'National submarine and terrestrial fiber backbone connecting 57 of 65 target cities. Outer eastern cities still pending. Last-mile delivery from city nodes to rural villages remains unresolved on most outer islands.',
+   src:'<a href="https://www.kominfo.go.id" target="_blank">Kemenkominfo 2021–2024</a> · <a href="https://www.bappenas.go.id" target="_blank">Bappenas Digital Roadmap 2024</a>'},
+  {color:'#f59e0b',name:'PLTS — solar micro-grid replacing diesel',status:'delayed',pct:31,
+   meta:[{l:'Target units',v:'2,130'},{l:'Installed',v:'662'},{l:'People served',v:'~1.8M'}],
+   desc:'Aims to replace 2,130 diesel generator units in remote eastern islands with solar-battery micro-grids. Terrain, logistics, and budget constraints have slowed rollout by ~2 years vs original plan. At current pace, completion projected 2028.',
+   src:'<a href="https://www.pln.co.id" target="_blank">PLN Annual Report 2023</a> · <a href="https://www.esdm.go.id" target="_blank">ESDM Off-grid Electrification Report 2024</a> · <a href="https://iesr.or.id" target="_blank">IESR Indonesia 2024</a>'},
+  {color:'#2ec4a0',name:'100K Digital Talents program',status:'active',pct:64,
+   meta:[{l:'Target',v:'100,000'},{l:'Trained',v:'64,200'},{l:'Budget',v:'Rp 3.1T'}],
+   desc:'Government program to train 100,000 Indonesians in advanced digital skills including AI/ML, cloud, cybersecurity, and software engineering. On track to meet 2025 target. Managed by Kominfo and Bappenas.',
+   src:'<a href="https://www.kominfo.go.id" target="_blank">Kominfo Digital Talent Scholarship 2024</a> · <a href="https://www.bappenas.go.id" target="_blank">Bappenas 2024</a>'},
+  {color:'#a78bfa',name:'USO fund — universal service obligation',status:'delayed',pct:43,
+   meta:[{l:'Budget',v:'Rp 22T'},{l:'Base stations',v:'4,200'},{l:'Villages covered',v:'~9,800'}],
+   desc:'Mandatory fund connecting underserved areas. A 2023 corruption probe halted disbursement of Rp 8T in funds; new oversight framework was introduced in 2024. Rollout has resumed at reduced pace.',
+   src:'<a href="https://baktikominfo.id" target="_blank">BAKTI Kominfo 2024</a> · <a href="https://www.kpk.go.id" target="_blank">KPK Corruption Eradication Commission 2023</a>'},
+  {color:'#4ade80',name:'National Digital Literacy program',status:'active',pct:58,
+   meta:[{l:'Literacy index',v:'52.5 / 100'},{l:'Target index',v:'75 / 100'},{l:'Modules deployed',v:'~3,200'}],
+   desc:'Multi-ministry initiative to raise Indonesia\'s Digital Literacy Index from 52.5/100 to the government\'s 75/100 target by 2026. Covers digital skills, digital ethics, digital safety, and digital culture across schools and communities.',
+   src:'<a href="https://www.kominfo.go.id" target="_blank">Kominfo Digital Literacy Survey 2023</a> · <a href="https://www.kemdikbud.go.id" target="_blank">Kemdikbud 2024</a>'},
+];
+
+function buildPolicyTracker(){
+  var list=document.getElementById('policy-list');
+  if(!list) return;
+  list.innerHTML=POLICIES.map(function(p,i){
+    var sCls=p.status==='active'?'s-active':p.status==='delayed'?'s-delayed':'s-planned';
+    var sLabel=p.status==='active'?'Active':p.status==='delayed'?'Delayed':'Planned';
+    return '<div class="pol" id="pol'+i+'">'
+      +'<div class="pol-hdr" onclick="togglePol('+i+')">'
+      +'<div class="pol-stripe" style="background:'+p.color+'"></div>'
+      +'<div class="pol-name">'+p.name+'</div>'
+      +'<div class="pol-status '+sCls+'">'+sLabel+'</div>'
+      +'<div class="pol-pct" style="color:'+p.color+'">'+p.pct+'%</div>'
+      +'<div class="pol-toggle">+</div></div>'
+      +'<div class="pol-body">'
+      +'<div class="pol-prog"><div class="pol-track"><div class="pol-fill" style="width:'+p.pct+'%;background:'+p.color+'"></div></div>'
+      +'<div class="pol-plbl" style="color:'+p.color+'">'+p.pct+'%</div></div>'
+      +'<div class="pol-meta">'+p.meta.map(function(m){
+        return '<div class="pm"><div class="pm-l">'+m.l+'</div><div class="pm-v" style="color:'+p.color+'">'+m.v+'</div></div>';
+      }).join('')+'</div>'
+      +'<div class="pol-desc">'+p.desc+'</div>'
+      +'<div class="pol-src">Sources: '+p.src+'</div>'
+      +'</div></div>';
+  }).join('');
+}
+
+function togglePol(i){document.getElementById('pol'+i).classList.toggle('open');}
+
+/* hook counter into existing slider input */
+document.getElementById('hour-slider').addEventListener('input',function(){
+  currentHour=this.value/10;drawMap(currentHour);updateUI(currentHour);updatePopCounter(currentHour);
+});
+
 (function init(){
   drawMap(currentHour);
   updateUI(currentHour);
+  updatePopCounter(currentHour);
   buildFor('overview');
+  buildPolicyTracker();
   chartsBuilt['overview']=true;
 })();
 </script>
